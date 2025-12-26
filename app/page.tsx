@@ -5,6 +5,7 @@ import Hero from "@/components/hero";
 import TechArsenal from "@/components/tech-arsenal";
 import ExperienceTimeline from "@/components/experience-timeline";
 import MissionFiles from "@/components/mission-files";
+import ResumeSection from "@/components/resume-section";
 import Contact from "@/components/contact";
 import { useThemeStore } from "@/store/useThemeStore";
 import { useEffect, useState } from "react";
@@ -28,6 +29,7 @@ export default function Home() {
         <TechArsenal />
         <ExperienceTimeline />
         <MissionFiles />
+        <ResumeSection />
         <Contact />
       </div>
 
