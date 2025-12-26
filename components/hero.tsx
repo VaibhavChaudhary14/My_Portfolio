@@ -41,12 +41,12 @@ export default function Hero() {
             <h1 className="text-6xl md:text-8xl font-black mb-6 font-sans tracking-tight" style={{ textShadow: "4px 4px 0px #a855f7" }}>
               HIE, I AM <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500 stroke-black" style={{ WebkitTextStroke: "2px black" }}>
-                VAIBHAV
+                VAIBHAV CHAUDHARY
               </span>
             </h1>
 
             <motion.div
-              className="inline-block bg-zinc-300 dark:bg-zinc-800 border-2 border-black p-4 rotate-2 shadow-neobrutalism mb-8"
+              className="inline-block bg-zinc-300 dark:bg-red-800 border-2 border-black p-4 rotate-2 shadow-neobrutalism mb-8"
               whileHover={{ rotate: 0, scale: 1.05 }}
             >
               <p className="text-xl md:text-2xl font-hand font-bold">
