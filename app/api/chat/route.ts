@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { OpenAI } from 'openai';
 import { getBlogContext } from '@/lib/context';
 
-// Initialize Gemini (New SDK)
-const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// Initialize Gemini (Standard SDK)
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
 // Initialize OpenAI (conditional)
 const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
@@ -60,13 +60,15 @@ export async function POST(req: Request) {
     if (process.env.GEMINI_API_KEY) {
         try {
             console.log("Attempting Gemini (2.5 Flash)...");
-            const response = await genAI.models.generateContent({
-                model: 'gemini-2.5-flash',
-                contents: `${systemPrompt}\n\nUser: ${message}`
-            });
-            const text = response.text;
-            const reply = typeof text === 'function' ? (text as any)() : text;
-            return NextResponse.json({ reply });
+            const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+            // Construct history for Gemini if needed, but for now using single-turn with context to match previous logic
+            // (Enhancement: Could map 'history' to Gemini format 'contents' array)
+            const result = await model.generateContent(`${systemPrompt}\n\nUser: ${message}`);
+            const response = await result.response;
+            const text = response.text();
+
+            return NextResponse.json({ reply: text });
         } catch (error: any) {
             console.warn("Gemini Failed:", error.message);
             // If OpenAI is not available, throw properly

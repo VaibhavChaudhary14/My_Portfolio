@@ -3,57 +3,48 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const fs = require('fs');
 const path = require('path');
 
-async function testModels() {
-    // 1. Load API Key securely
-    let apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-        try {
-            const envPath = path.resolve(process.cwd(), '.env.local');
-            if (fs.existsSync(envPath)) {
-                const content = fs.readFileSync(envPath, 'utf8');
-                const match = content.match(/GEMINI_API_KEY=["']?([^"'\n]+)["']?/);
-                if (match) apiKey = match[1];
+// Manually load .env.local
+try {
+    const envPath = path.resolve(__dirname, '../.env.local');
+    if (fs.existsSync(envPath)) {
+        const envConfig = fs.readFileSync(envPath, 'utf8');
+        envConfig.split('\n').forEach(line => {
+            const [key, value] = line.split('=');
+            if (key && value) {
+                const cleanValue = value.trim().replace(/^["']|["']$/g, '');
+                process.env[key.trim()] = cleanValue;
             }
-        } catch (e) {
-            console.error("Failed to read .env.local");
-        }
+        });
     }
+} catch (e) { console.log("Env error", e); }
 
-    if (!apiKey) {
-        console.error("CRITICAL: Could not find GEMINI_API_KEY.");
-        return;
-    }
+async function findWorkingModel() {
+    const key = process.env.GEMINI_API_KEY;
+    if (!key) { console.log("No key"); return; }
+    console.log("Key:", key.slice(-4));
 
-    const genAI = new GoogleGenerativeAI(apiKey);
-
-    const candidates = [
+    const genAI = new GoogleGenerativeAI(key);
+    const models = [
         "gemini-1.5-flash",
-        "gemini-1.5-flash-001",
         "gemini-1.5-flash-latest",
-        "gemini-1.0-pro",
+        "gemini-1.5-pro",
         "gemini-pro",
-        "gemini-1.5-pro"
+        "gemini-1.0-pro"
     ];
 
-    console.log(`Testing ${candidates.length} models...`);
-
-    for (const modelName of candidates) {
-        process.stdout.write(`Testing ${modelName}... `);
+    for (const modelName of models) {
+        console.log(`Testing ${modelName}...`);
         try {
             const model = genAI.getGenerativeModel({ model: modelName });
-            await model.generateContent("Test"); // Simple generation
-            console.log("✅ SUCCESS");
-            console.log(`\n!!! FOUND WORKING MODEL: ${modelName} !!!\n`);
-            return; // Stop after finding the best one
+            const result = await model.generateContent("Hello");
+            const response = await result.response;
+            console.log(`SUCCESS: ${modelName} works! Response: ${response.text()}`);
+            return; // Exit on first success
         } catch (e) {
-            if (e.message.includes('404') || e.message.includes('Not Found')) {
-                console.log("❌ 404 (Not Found)");
-            } else {
-                console.log(`❌ Error: ${e.message.split('\n')[0]}`);
-            }
+            console.log(`FAILED: ${modelName} - ${e.message.split('\n')[0]}`); // Print first line of error
         }
     }
-    console.log("No working models found.");
+    console.log("All models failed.");
 }
 
-testModels();
+findWorkingModel();

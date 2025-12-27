@@ -106,7 +106,7 @@ export function ChatWidget() {
                         initial={{ opacity: 0, y: 20, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        className="fixed bottom-24 right-6 w-80 max-w-[calc(100vw-3rem)] md:w-[350px] h-[500px] bg-white dark:bg-zinc-900 border-2 border-black dark:border-venom-slime shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_#84cc16] z-50 rounded-xl flex flex-col runner-hidden font-sans"
+                        className="fixed bottom-24 right-6 w-72 max-w-[calc(100vw-3rem)] md:w-[320px] h-[400px] bg-white dark:bg-zinc-900 border-2 border-black dark:border-venom-slime shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_#84cc16] z-50 rounded-xl flex flex-col runner-hidden font-sans"
                     >
                         {/* Header */}
                         <div className={`p-4 border-b-2 border-black dark:border-venom-slime flex items-center justify-between ${isVenom ? 'bg-zinc-800 text-white' : 'bg-red-50 text-black'}`}>
