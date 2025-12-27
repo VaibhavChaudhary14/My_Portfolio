@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" class="spidy-avatar">
+  <circle cx="50" cy="50" r="48" fill="#e23636" stroke="#000" stroke-width="2"/>
+  <path d="M50 2 C 20 2 2 25 2 50 C 2 75 20 98 50 98 C 80 98 98 75 98 50 C 98 25 80 2 50 2 Z" fill="#e23636"/>
+  <!-- Webbing -->
+  <path d="M50 50 L50 2 M50 50 L95 25 M50 50 L95 75 M50 50 L50 98 M50 50 L5 75 M50 50 L5 25" stroke="#000" stroke-width="1.5"/>
+  <path d="M50 20 Q70 20 85 35" stroke="#000" stroke-width="1.5" fill="none"/>
+  <path d="M50 35 Q65 35 75 45" stroke="#000" stroke-width="1.5" fill="none"/>
+  <path d="M50 20 Q30 20 15 35" stroke="#000" stroke-width="1.5" fill="none"/>
+  <path d="M50 35 Q35 35 25 45" stroke="#000" stroke-width="1.5" fill="none"/>
+  <!-- Eyes -->
+  <path d="M35 45 Q 20 40 15 30 Q 10 50 25 65 Q 40 55 35 45 Z" fill="#fff" stroke="#000" stroke-width="3"/>
+  <path d="M65 45 Q 80 40 85 30 Q 90 50 75 65 Q 60 55 65 45 Z" fill="#fff" stroke="#000" stroke-width="3"/>
+</svg>

@@ -1,8 +1,8 @@
-import { Info, CheckCircle, AlertTriangle, XCircle } from "lucide-react";
+import { Info, CheckCircle, AlertTriangle, XCircle, Lightbulb } from "lucide-react";
 import { ReactNode } from "react";
 
 type CalloutProps = {
-    type?: "info" | "success" | "warning" | "danger";
+    type?: "info" | "success" | "warning" | "danger" | "tip";
     title?: string;
     children: ReactNode;
 };
@@ -23,6 +23,10 @@ const styles = {
     danger: {
         container: "border-red-400 bg-red-50 text-red-900",
         icon: <XCircle className="w-5 h-5 text-red-500 mt-0.5" />,
+    },
+    tip: {
+        container: "border-purple-400 bg-purple-50 text-purple-900",
+        icon: <Lightbulb className="w-5 h-5 text-purple-500 mt-0.5" />,
     },
 };
 

@@ -4,6 +4,7 @@ const nextConfig = {
   images: {
     domains: [],
   },
+  transpilePackages: ['next-mdx-remote', 'remark-math', 'rehype-katex', 'mermaid'],
 };
 
 module.exports = nextConfig;

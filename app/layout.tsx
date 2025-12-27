@@ -4,6 +4,7 @@ import "./global.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import ClientThemeWrapper from "@/components/client-theme-wrapper";
 import { BackButton } from "@/components/back-button";
+import { ChatWidget } from "@/components/chat-widget";
 
 const patrickHand = Patrick_Hand({
   weight: "400",
@@ -42,9 +43,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${patrickHand.variable} ${comicNeue.variable} font-sans bg-[#fbfbfb] text-zinc-900 dark:bg-venom-black dark:text-venom-white`}>
+      <body suppressHydrationWarning className={`${patrickHand.variable} ${comicNeue.variable} font-sans bg-[#fbfbfb] text-zinc-900 dark:bg-venom-black dark:text-venom-white`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ClientThemeWrapper>
+            <ChatWidget />
             <BackButton />
             {children}
           </ClientThemeWrapper>

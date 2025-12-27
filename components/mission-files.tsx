@@ -21,7 +21,7 @@ const projects: Project[] = [
     id: "1",
     title: "SaafSaksham",
     description: "AI-Powered Civic Cleanliness Verification Platform. Uses Vision Transformers to detect garbage and verify cleanliness.",
-    tech: ["PyTorch", "Next.js", "OpenCV"],
+    tech: ["PyTorch", "Next.js", "OpenCV", "Vision Transformers", "Google Maps API", "Tailwind CSS"],
     github: "https://github.com/VaibhavChaudhary14/SaafSaksham",
     color: "bg-green-200",
     venomColor: "border-green-500 shadow-[4px_4px_0px_0px_#22c55e]"
@@ -30,16 +30,17 @@ const projects: Project[] = [
     id: "2",
     title: "Smart Grid Security",
     description: "Cyberattack detection in power grids using Spatio-Temporal Graph Neural Networks (ST-GNNs).",
-    tech: ["ST-GNN", "MATLAB", "Reinforcement Learning"],
+    tech: ["ST-GNN", "MATLAB", "Reinforcement Learning", "Python", "Graph Theory", "Cybersecurity"],
     github: "https://github.com/VaibhavChaudhary14",
     color: "bg-blue-200",
     venomColor: "border-blue-500 shadow-[4px_4px_0px_0px_#3b82f6]"
   },
+
   {
-    id: "3",
+    id: "4",
     title: "Portfolio",
     description: "My personal website built with Next.js and Tailwind CSS. You are looking at it right now!",
-    tech: ["Next.js", "Tailwind", "Framer Motion"],
+    tech: ["Next.js", "Tailwind", "Framer Motion", "TypeScript", "Gemini API", "Resend"],
     color: "bg-purple-200",
     venomColor: "border-purple-500 shadow-[4px_4px_0px_0px_#a855f7]"
   }

@@ -12,6 +12,10 @@ import { LighthouseEmbed } from "@/components/mdx/LighthouseEmbed";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { LikeButton } from "@/components/like-button";
 import { NewsletterForm } from "@/components/newsletter-form";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import { Mermaid } from "@/components/mdx/Mermaid";
+import { HFEmbed } from "@/components/mdx/HFEmbed";
 
 export async function generateStaticParams() {
     const posts = getAllPosts();
@@ -30,13 +34,21 @@ export default async function BlogPost({ params }: Props) {
 
     const { content } = await compileMDX<{ title: string }>({
         source: rawContent,
-        options: { parseFrontmatter: true },
+        options: {
+            parseFrontmatter: true,
+            mdxOptions: {
+                remarkPlugins: [remarkMath],
+                rehypePlugins: [rehypeKatex],
+            }
+        },
         components: {
             Callout,
             SortableTable,
-            Citation,
             LighthouseScore,
+            Citation,
             LighthouseEmbed,
+            Mermaid,
+            HFEmbed,
         }
     });
 
