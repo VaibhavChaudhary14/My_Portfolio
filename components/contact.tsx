@@ -182,6 +182,10 @@ export default function Contact() {
                   <BookOpen size={20} className={theme === 'venom' ? 'text-venom-slime' : 'text-black'} />
                   <span className="font-bold text-xs">Medium</span>
                 </a>
+                <a href="https://www.instagram.com/bepvt.vaibhav/" target="_blank" className={`flex flex-col items-center gap-2 p-3 border-2 transition-colors ${theme === 'venom' ? 'bg-black border-venom-slime hover:bg-venom-slime/10' : 'bg-pink-100 border-black hover:bg-pink-200'}`}>
+                  <Instagram size={20} className={theme === 'venom' ? 'text-venom-slime' : 'text-pink-600'} />
+                  <span className="font-bold text-xs">Instagram</span>
+                </a>
               </div>
             </motion.div>
           </div>
