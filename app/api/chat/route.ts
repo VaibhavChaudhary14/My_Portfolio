@@ -64,9 +64,9 @@ export async function POST(req: Request) {
                 model: 'gemini-2.5-flash',
                 contents: `${systemPrompt}\n\nUser: ${message}`
             });
-            const text = response.text; // Note: In new SDK, .text might be a property or method. Checking docs suggests property.
-
-            return NextResponse.json({ reply: typeof text === 'function' ? text() : text });
+            const text = response.text;
+            const reply = typeof text === 'function' ? (text as any)() : text;
+            return NextResponse.json({ reply });
         } catch (error: any) {
             console.warn("Gemini Failed:", error.message);
             // If OpenAI is not available, throw properly
