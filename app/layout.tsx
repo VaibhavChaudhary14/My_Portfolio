@@ -3,6 +3,7 @@ import { Patrick_Hand, Comic_Neue } from "next/font/google";
 import "./global.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import ClientThemeWrapper from "@/components/client-theme-wrapper";
+import { BackButton } from "@/components/back-button";
 
 const patrickHand = Patrick_Hand({
   weight: "400",
@@ -44,6 +45,7 @@ export default function RootLayout({
       <body className={`${patrickHand.variable} ${comicNeue.variable} font-sans bg-[#fbfbfb] text-zinc-900 dark:bg-venom-black dark:text-venom-white`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ClientThemeWrapper>
+            <BackButton />
             {children}
           </ClientThemeWrapper>
         </ThemeProvider>
