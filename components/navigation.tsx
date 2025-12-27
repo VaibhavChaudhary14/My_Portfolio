@@ -22,6 +22,7 @@ export default function Navigation() {
     { href: "#skills", label: theme === "venom" ? "Arsenal" : "Skills" },
     { href: "#experience", label: theme === "venom" ? "Origin" : "Journey" },
     { href: "#projects", label: theme === "venom" ? "Missions" : "Work" },
+    { href: "/blog", label: theme === "venom" ? "Stash" : "Blog" },
     { href: "#contact", label: theme === "venom" ? "Summon" : "Contact" },
   ];
 

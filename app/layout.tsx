@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Patrick_Hand, Comic_Neue } from "next/font/google"; // Replacing fonts for Sketchbook vibe
+import { Patrick_Hand, Comic_Neue } from "next/font/google";
 import "./global.css";
-// import IdentityWrapper from "@/components/identity-wrapper"; // Removing IdentityWrapper
+import { ThemeProvider } from "@/components/theme-provider";
+import ClientThemeWrapper from "@/components/client-theme-wrapper";
 
 const patrickHand = Patrick_Hand({
   weight: "400",
@@ -20,20 +21,16 @@ export const metadata: Metadata = {
   description: "AI / Machine Learning Engineer specializing in Computer Vision, cyber-physical AI systems, and applied machine learning. Building end-to-end ML pipelines to solve real-world infrastructure and security problems.",
   keywords: ["AI Engineer", "ML Engineer", "Computer Vision", "Cyber-Physical AI", "Smart Grids", "PyTorch", "TensorFlow", "CNNs", "Vision Transformers"],
   authors: [{ name: "Vaibhav Chaudhary" }],
-  metadataBase: new URL('https://vaibhav-chaudhary-portfolio.vercel.app'), // Replace with actual domain when deployed
+  metadataBase: new URL('https://vaibhav-14ry.vercel.app/'),
   openGraph: {
     title: "Vaibhav Chaudhary | AI / Machine Learning Engineer",
     description: "Specializing in Computer Vision, cyber-physical AI systems, and applied machine learning.",
     type: "website",
-    // Add your OpenGraph image URL here
-    // images: ["/og-image.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Vaibhav Chaudhary | AI / Machine Learning Engineer",
     description: "Specializing in Computer Vision, cyber-physical AI systems, and applied machine learning.",
-    // Add your Twitter image URL here
-    // images: ["/twitter-image.png"],
   },
 };
 
@@ -43,9 +40,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${patrickHand.variable} ${comicNeue.variable} font-sans bg-[#fbfbfb] text-zinc-900`}>
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${patrickHand.variable} ${comicNeue.variable} font-sans bg-[#fbfbfb] text-zinc-900 dark:bg-venom-black dark:text-venom-white`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ClientThemeWrapper>
+            {children}
+          </ClientThemeWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );

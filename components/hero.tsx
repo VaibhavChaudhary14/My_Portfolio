@@ -103,6 +103,7 @@ export default function Hero() {
                   src={theme === 'venom' ? "/profile-venom.png" : "/profile-light.png"}
                   alt="Vaibhav Chaudhary"
                   fill
+                  priority
                   className="object-cover scale-110" // Slight scale to cover blob movement
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
