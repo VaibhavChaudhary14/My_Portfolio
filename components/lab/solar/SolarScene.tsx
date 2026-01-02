@@ -2,12 +2,40 @@
 
 import { useFrame } from "@react-three/fiber";
 import { useSolarStore } from "@/store/useSolarStore";
+import { useThemeStore } from "@/store/useThemeStore";
 import { useRef, useMemo } from "react";
 import * as THREE from "three";
 import { Html, Cylinder, Sphere, Line, useTexture } from "@react-three/drei";
 
 export default function SolarScene() {
-    const { latitude, declination, hourAngle } = useSolarStore();
+    const { latitude, longitude, declination, hourAngle, setLatitude, setLongitude, setActiveInfo, labMode, showSunPath, panelTilt, panelAzimuth } = useSolarStore();
+    const { theme } = useThemeStore();
+    const isVenom = theme === 'venom';
+
+    // Theme Colors for 3D Elements
+    const colors3D = isVenom ? {
+        latColor: "#a855f7", // Purple
+        latClass: "text-purple-500",
+        haColor: "#84cc16", // Lime
+        haClass: "text-lime-400",
+        decColor: "#22c55e", // Green
+        decClass: "text-green-500",
+        ground: "#27272a", // Dark Zinc
+        panel: "#18181b", // Black Panel
+        panelEmissive: "#84cc16", // Lime Glow
+        normal: 0xa855f7 // Purple Arrow
+    } : {
+        latColor: "#f43f5e", // Rose
+        latClass: "text-rose-500",
+        haColor: "#06b6d4", // Cyan
+        haClass: "text-cyan-400",
+        decColor: "#f59e0b", // Amber
+        decClass: "text-amber-500",
+        ground: "#10b981", // Emerald (Grass)
+        panel: "#2563eb", // Blue
+        panelEmissive: "#1e40af", // Dark Blue Glow
+        normal: 0x22c55e // Green Arrow
+    };
 
     // --- Fullscreen State ---
 
@@ -21,6 +49,7 @@ export default function SolarScene() {
 
     // Convert inputs to radians
     const toRad = (deg: number) => (deg * Math.PI) / 180;
+    const toDeg = (rad: number) => (rad * 180) / Math.PI;
     const latRad = toRad(latitude);
     const decRad = toRad(declination);
     const haRad = toRad(hourAngle);
@@ -128,6 +157,98 @@ export default function SolarScene() {
         return mat;
     }, [eastDir, zenithDir, northDir]);
 
+    // Earth Click Handler
+    const handleEarthClick = (e: any) => {
+        e.stopPropagation();
+        const point = e.point; // World space point on sphere surface
+        // World Space in this scene has Earth Center at 0,0,0
+        // We need to account for Earth Rotation if we rotated the mesh
+        // The Earth mesh is rotated by [0, lonRad, 0] ?? No, let's see below.
+
+        // Actually, we rotate the Earth Mesh by 'longitude'. 
+        // So we need to inverse that rotation to get 'fixed earth' coordinates (Greenwich relative).
+        // BUT, simplified:
+        // Latitude = asin(y / R)
+        // Longitude = atan2(x, z) - rotationOffset ?
+
+        // Let's normalize point
+        const p = point.clone().normalize();
+
+        // Latitude (y-axis is Polar axis in default sphere UV? No, usually Y is up.)
+        // In ThreeJS SphereGeometry: Y is Up (Poles).
+        const lat = Math.asin(p.y); // Radians result
+
+        // Longitude (x, z plane)
+        // atan2(x, z) gives angle from Z axis.
+        const lonLocal = Math.atan2(p.x, p.z);
+
+        // Apply Earth Rotation Offset (lonRad)
+        // If Earth is rotated by 'lonRad', then the point P we clicked corresponds to:
+        // P_world = Rot(lonRad) * P_fixed
+        // P_fixed = Rot(-lonRad) * P_world
+        const lonRad = toRad(longitude);
+        const pFixedX = p.x * Math.cos(-lonRad) - p.z * Math.sin(-lonRad);
+        const pFixedZ = p.x * Math.sin(-lonRad) + p.z * Math.cos(-lonRad);
+        const lonFree = Math.atan2(pFixedX, pFixedZ);
+
+        setLatitude(toDeg(lat));
+        // We actually want to MOVE the observer to this point?
+        // OR move the earth so this point is under observer?
+        // User said "click by any point". Usually implies "Move Observer Here".
+
+        // If I move observer, Lat changes. Lon changes.
+        // My Logic:
+        // Lat = from Y.
+        // Lon = from X/Z.
+        // But the Observer is fixed at (0, R*sinLat, R*cosLat) in World Space (Prime Meridian Slice).
+        // If I click ANYWHERE, I want that point to become the new Observer location.
+        // So I should set global Latitude = ClickLat.
+        // And Global Longitude = ClickLon (so the earth rotates to bring it to meridian? or just set value?)
+
+        // Use p.x, p.z directly for "target" longitude?
+        // If I click at +90 deg East (X axis), I want Observer to be at +90 deg East.
+        // This means I set Longitude = +90.
+        // And the Earth Rotation updates to show +90 under the fixed meridian?
+        // Let's assume Longitude dictates Earth Rotation.
+
+        // If I click a point, its current longitude 'relative to 0' is what calculate.
+        // Wait, if Earth is currently rotated by L1. And I click a mountain at L2 (world space).
+        // That mountain IS at L2. 
+        // If I want to "Go To" that mountain, I set Longitude = L2.
+        // Then Earth rotates so L2 is at Meridian? 
+        // No, standard map clicking:
+        // Clicked Lat/Lon becomes my selected Lat/Lon.
+
+        // Let's trust simple spherical conversion of the World Click point for now.
+        // Since Earth is rotated by 'longitude' prop... 
+        // Actually, if I rotate the earth mesh by 'longitude', then the texture moves.
+        // If I click (1,0,0), that is ALWAYS 90 degrees right of Z-axis.
+        // If the Earth is rotated, the "Greenwich" might be at -90.
+        // The texture coordinate is what matters.
+        // UV mapping: u = 0.5 + atan2(z, x) / 2pi, v = 0.5 - asin(y)/pi
+        // Too complex.
+        // Let's just set Lat/Lon based on visual click location in WORLD space.
+        // Lat = asin(y)
+        // Lon = atan2(x, z) 
+        // This sets the observer to the "Visual Spot" relative to the sun/stars fixed frame.
+        // If the user wants to "Select a Country", they need the texture logic.
+        // Let's implement Texture Logic: Longitude = atan2(x, z) - currentRotation?
+
+        const clickLon = Math.atan2(p.x, p.z);
+
+        // In my scene, Z is North (0). X is East (90).
+        // atan2(x, z) returns 0 for (0,1), PI/2 for (1,0). Matches.
+        // BUT, the Earth Mesh rotation is applied.
+        // Let's Apply Rotation to the mesh below and just use offset here.
+
+        // Correct Standard:
+        // If I click a point, I want that point to *become* the observer coordinates?
+        // No, the user wants to "add coordinates manually AND by clicking".
+        // Typically means "Set Coordinates to this point".
+
+        setLongitude(toDeg(clickLon)); // Set Lon to where we clicked in World Space
+    };
+
     // Quaternion for the group
     const observerQuaternion = useMemo(() => {
         return new THREE.Quaternion().setFromRotationMatrix(observerMatrix);
@@ -191,7 +312,7 @@ export default function SolarScene() {
 
 
     // --- PANEL MODE VISUALS ---
-    const { labMode, panelTilt, panelAzimuth } = useSolarStore();
+
 
     // Visualize Panel Orientation
     // Panel Tilt (beta): Rotation around local X axis (if Azimuth is 0).
@@ -264,9 +385,16 @@ export default function SolarScene() {
             </group>
 
             {/* Earth Group */}
-            <group>
+            <group rotation={[0, toRad(longitude), 0]}> {/* Rotate Earth by Longitude */}
                 {/* Planet Surface */}
-                <mesh receiveShadow castShadow rotation={[0, 0, 0]}>
+                <mesh
+                    receiveShadow
+                    castShadow
+                    rotation={[0, -Math.PI / 2, 0]} // Offset texture so 0 lon is at Z? Check texture. Usually Greenwhich is at center.
+                    onPointerDown={handleEarthClick}
+                    onPointerOver={() => { document.body.style.cursor = 'crosshair' }}
+                    onPointerOut={() => { document.body.style.cursor = 'auto' }}
+                >
                     <sphereGeometry args={[EARTH_RADIUS, 64, 64]} />
                     {/* REAL EARTH TEXTURE */}
                     <meshPhongMaterial
@@ -299,23 +427,65 @@ export default function SolarScene() {
                 {labMode === 'physics' && (
                     <group>
                         {/* 1. Latitude (φ) - Red */}
-                        <Line points={latArcPoints} color="#f43f5e" lineWidth={3} transparent opacity={0.8} />
-                        <Html position={latArcPoints[Math.floor(latArcPoints.length / 2)]} center>
-                            <div className="text-rose-500 font-bold text-xs bg-black/50 px-1 rounded backdrop-blur">φ</div>
+                        <Line points={latArcPoints} color={colors3D.latColor} lineWidth={3} transparent opacity={0.8} />
+                        <Html position={latArcPoints[Math.floor(latArcPoints.length / 2)]} center style={{ pointerEvents: 'auto' }} zIndexRange={[100, 0]}>
+                            <div
+                                onClick={(e) => { e.stopPropagation(); setActiveInfo("latitude"); }}
+                                className={`${colors3D.latClass} font-bold text-xs bg-black/50 px-2 py-1 rounded backdrop-blur cursor-pointer hover:scale-125 transition-transform border border-white/20 select-none shadow-lg`}
+                            >
+                                φ
+                            </div>
                         </Html>
 
                         {/* 2. Hour Angle (ω) - Cyan */}
-                        <Line points={haArcPoints} color="#06b6d4" lineWidth={3} transparent opacity={0.7} />
-                        <Html position={haArcPoints[Math.floor(haArcPoints.length / 2)]} center>
-                            <div className="text-cyan-400 font-bold text-xs bg-black/50 px-1 rounded backdrop-blur">ω</div>
+                        <Line points={haArcPoints} color={colors3D.haColor} lineWidth={3} transparent opacity={0.7} />
+                        <Html position={haArcPoints[Math.floor(haArcPoints.length / 2)]} center style={{ pointerEvents: 'auto' }} zIndexRange={[100, 0]}>
+                            <div
+                                onClick={(e) => { e.stopPropagation(); setActiveInfo("hourAngle"); }}
+                                className={`${colors3D.haClass} font-bold text-xs bg-black/50 px-2 py-1 rounded backdrop-blur cursor-pointer hover:scale-125 transition-transform border border-white/20 select-none shadow-lg`}
+                            >
+                                ω
+                            </div>
                         </Html>
 
                         {/* 3. Declination (δ) - Amber */}
-                        <Line points={decArcPoints} color="#f59e0b" lineWidth={3} transparent opacity={0.8} />
-                        <Html position={decArcPoints[Math.floor(decArcPoints.length / 2)]} center>
-                            <div className="text-amber-500 font-bold text-xs bg-black/50 px-1 rounded backdrop-blur">δ</div>
+                        <Html position={decArcPoints[Math.floor(decArcPoints.length / 2)]} center style={{ pointerEvents: 'auto' }} zIndexRange={[100, 0]}>
+                            <div
+                                onClick={(e) => { e.stopPropagation(); setActiveInfo("declination"); }}
+                                className={`${colors3D.decClass} font-bold text-xs bg-black/50 px-2 py-1 rounded backdrop-blur cursor-pointer hover:scale-125 transition-transform border border-white/20 select-none shadow-lg`}
+                            >
+                                δ
+                            </div>
                         </Html>
                     </group>
+                )}
+
+                {/* 4. Sun Path (Day Trajectory) */}
+                {showSunPath && (
+                    <Line
+                        points={(() => {
+                            const pts = [];
+                            const radius = EARTH_RADIUS * 1.5;
+                            const decCos = Math.cos(decRad);
+                            const decSin = Math.sin(decRad);
+                            for (let h = -180; h <= 180; h += 5) {
+                                const hRad = h * Math.PI / 180;
+                                pts.push(new THREE.Vector3(
+                                    radius * decCos * Math.sin(hRad),
+                                    radius * decSin,
+                                    radius * decCos * Math.cos(hRad)
+                                ));
+                            }
+                            return pts;
+                        })()}
+                        color="#fbbf24"
+                        lineWidth={1}
+                        dashed
+                        dashScale={2}
+                        gapSize={1}
+                        opacity={0.5}
+                        transparent
+                    />
                 )}
 
 
@@ -326,7 +496,7 @@ export default function SolarScene() {
                     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.05, 0]}>
                         <circleGeometry args={[HORIZON_RADIUS, 32]} />
                         <meshStandardMaterial
-                            color={labMode === 'panel' ? "#3f3f46" : "#10b981"} // Grey roof in panel mode
+                            color={labMode === 'panel' ? "#3f3f46" : colors3D.ground} // Grey roof in panel mode
                             transparent
                             opacity={labMode === 'panel' ? 0.9 : 0.1}
                             side={THREE.DoubleSide}
@@ -392,8 +562,11 @@ export default function SolarScene() {
                                         </mesh>
                                         <group rotation={[0, -Math.PI / 2, 0]}>
                                             <group rotation={[0, 0, angleData.altitudeRad / 2]}>
-                                                <Html position={[5.2, 0, 0]} transform sprite>
-                                                    <div className="bg-yellow-500/80 text-black font-bold text-xs px-1 rounded shadow-lg backdrop-blur">
+                                                <Html position={[5.2, 0, 0]} transform sprite style={{ pointerEvents: 'auto' }} zIndexRange={[100, 0]}>
+                                                    <div
+                                                        onClick={(e) => { e.stopPropagation(); setActiveInfo("altitude"); }}
+                                                        className="bg-yellow-500/80 text-black font-bold text-xs px-2 py-1 rounded shadow-lg backdrop-blur cursor-pointer hover:scale-110 transition-transform select-none"
+                                                    >
                                                         α: {(angleData.altitudeRad * 180 / Math.PI).toFixed(1)}°
                                                     </div>
                                                 </Html>
@@ -424,10 +597,10 @@ export default function SolarScene() {
                                     <boxGeometry args={[3, 4, 0.1]} />
                                     {/* Blue solar texture color */}
                                     <meshStandardMaterial
-                                        color="#2563eb"
+                                        color={colors3D.panel}
                                         roughness={0.2}
                                         metalness={0.8}
-                                        emissive="#1e40af"
+                                        emissive={colors3D.panelEmissive}
                                         emissiveIntensity={0.2}
                                     />
                                 </mesh>
@@ -443,8 +616,8 @@ export default function SolarScene() {
                                 </mesh>
 
                                 {/* Normal Vector */}
-                                <arrowHelper args={[new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0, 0), 4, 0x00ff00, 1, 0.5]} />
-                                <Html position={[0, 0, 4.2]} transform sprite>
+                                <arrowHelper args={[new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0, 0), 4, colors3D.normal, 1, 0.5]} />
+                                <Html position={[0, 0, 4.2]} transform sprite zIndexRange={[100, 0]}>
                                     <div className="bg-green-500/80 text-black font-bold text-xs px-1 rounded">Normal</div>
                                 </Html>
                             </group>

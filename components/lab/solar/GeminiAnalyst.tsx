@@ -1,12 +1,16 @@
 "use client";
 
 import { useSolarStore } from "@/store/useSolarStore";
+import { useThemeStore } from "@/store/useThemeStore";
 import { useState } from "react";
 import { Sparkles, Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 export default function GeminiAnalyst() {
     const { latitude, declination, hourAngle } = useSolarStore();
+    const { theme } = useThemeStore();
+    const isVenom = theme === 'venom';
+
     const [analysis, setAnalysis] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
@@ -62,7 +66,7 @@ export default function GeminiAnalyst() {
         <div className="bg-zinc-800/50 rounded-xl p-4 border border-zinc-700 space-y-4">
             <div className="flex items-center justify-between">
                 <h3 className="font-bold text-lg flex items-center gap-2 text-white">
-                    <Sparkles className="text-amber-400 w-5 h-5" />
+                    <Sparkles className={`w-5 h-5 ${isVenom ? 'text-venom-slime' : 'text-amber-400'}`} />
                     AI Analyst
                 </h3>
 
@@ -70,7 +74,7 @@ export default function GeminiAnalyst() {
                 <select
                     value={mode}
                     onChange={(e) => setMode(e.target.value as any)}
-                    className="bg-black/40 border border-zinc-600 text-xs rounded px-2 py-1 text-zinc-300 outline-none focus:border-amber-500"
+                    className={`bg-black/40 border border-zinc-600 text-xs rounded px-2 py-1 text-zinc-300 outline-none ${isVenom ? 'focus:border-venom-slime' : 'focus:border-amber-500'}`}
                 >
                     <option value="child">Explain like I'm 12</option>
                     <option value="student">Physics Student</option>
@@ -85,7 +89,7 @@ export default function GeminiAnalyst() {
             <button
                 onClick={handleAnalyze}
                 disabled={loading}
-                className="w-full py-2 bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg text-white font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+                className={`w-full py-2 rounded-lg font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2 ${isVenom ? 'bg-venom-slime text-black' : 'bg-gradient-to-r from-red-600 to-blue-600 text-white'}`}
             >
                 {loading ? (
                     <>

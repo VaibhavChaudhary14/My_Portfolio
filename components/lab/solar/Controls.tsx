@@ -1,15 +1,41 @@
 "use client";
 
 import { useSolarStore } from "@/store/useSolarStore";
+import { useThemeStore } from "@/store/useThemeStore";
 import { Lock, Unlock, Zap, Sun } from "lucide-react";
 
 export default function Controls() {
     const {
-        latitude, declination, hourAngle, isLocked,
-        labMode, panelTilt, panelAzimuth,
-        setLatitude, setDeclination, setHourAngle, setIsLocked,
-        setLabMode, setPanelTilt, setPanelAzimuth
+        latitude, longitude, declination, hourAngle, isLocked,
+        labMode, panelTilt, panelAzimuth, showSunPath,
+        setLatitude, setLongitude, setDeclination, setHourAngle, setIsLocked,
+        setLabMode, setPanelTilt, setPanelAzimuth, setShowSunPath
     } = useSolarStore();
+
+    const { theme } = useThemeStore();
+    const isVenom = theme === 'venom';
+
+    const colors = isVenom ? {
+        physicsTab: 'bg-venom-purple text-white',
+        panelTab: 'bg-venom-slime text-black',
+        locked: 'bg-venom-slime/20 text-venom-slime border-venom-slime/50',
+        sliderLat: 'accent-venom-purple hover:accent-venom-purple/80',
+        sliderDec: 'accent-venom-slime hover:accent-venom-slime/80',
+        sliderHA: 'accent-green-400 hover:accent-green-400/80',
+        textLat: 'text-venom-purple',
+        textDec: 'text-venom-slime',
+        textHA: 'text-green-400'
+    } : {
+        physicsTab: 'bg-blue-600 text-white',
+        panelTab: 'bg-red-600 text-white',
+        locked: 'bg-red-500/20 text-red-500 border-red-500/50',
+        sliderLat: 'accent-blue-500 hover:accent-blue-400',
+        sliderDec: 'accent-red-500 hover:accent-red-400',
+        sliderHA: 'accent-sky-500 hover:accent-sky-400',
+        textLat: 'text-blue-500',
+        textDec: 'text-red-500',
+        textHA: 'text-sky-500'
+    };
 
     // Helper to calculate current solar angles for display
     const toRad = (deg: number) => (deg * Math.PI) / 180;
@@ -138,8 +164,9 @@ export default function Controls() {
     );
 
 
-    const applyPreset = (lat: number, dec: number, ha: number) => {
+    const applyPreset = (lat: number, lon: number, dec: number, ha: number) => {
         setLatitude(lat);
+        setLongitude(lon);
         setDeclination(dec);
         setHourAngle(ha);
     };
@@ -171,8 +198,8 @@ export default function Controls() {
                 <button
                     onClick={() => setLabMode('physics')}
                     className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${labMode === 'physics'
-                            ? 'bg-indigo-600 text-white shadow-lg'
-                            : 'text-zinc-500 hover:text-white hover:bg-zinc-800'
+                        ? `${colors.physicsTab} shadow-lg`
+                        : 'text-zinc-500 hover:text-white hover:bg-zinc-800'
                         }`}
                 >
                     <Sun size={14} className="inline mr-1 -mt-0.5" /> Physics
@@ -180,43 +207,23 @@ export default function Controls() {
                 <button
                     onClick={() => setLabMode('panel')}
                     className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${labMode === 'panel'
-                            ? 'bg-amber-500 text-black shadow-lg'
-                            : 'text-zinc-500 hover:text-white hover:bg-zinc-800'
+                        ? `${colors.panelTab} shadow-lg`
+                        : 'text-zinc-500 hover:text-white hover:bg-zinc-800'
                         }`}
                 >
                     <Zap size={14} className="inline mr-1 -mt-0.5" /> Panel
                 </button>
             </div>
 
-            {/* Humor Status */}
-            <div className={`border p-2 rounded-lg text-center ${labMode === 'panel' ? 'bg-amber-900/20 border-amber-500/30' : 'bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border-indigo-500/30'}`}>
-                <span className={`font-medium italic text-xs ${labMode === 'panel' ? 'text-amber-200' : 'text-indigo-200'}`}>
-                    "{getStatusMessage()}"
-                </span>
-            </div>
+
 
             {/* SHARED CONTROLS (World State) */}
-            <div className="space-y-4">
-                <div className="flex justify-between items-center pb-2 border-b border-zinc-800">
-                    <span className="text-xs font-bold text-zinc-500 uppercase tracking-wider">World State</span>
-                    {/* Navigation Lock */}
-                    <button
-                        onClick={() => setIsLocked(!isLocked)}
-                        className={`p-1.5 rounded-md transition-all ${isLocked
-                            ? "bg-red-500/20 text-red-400 border border-red-500/50"
-                            : "bg-zinc-800 text-zinc-400 border border-zinc-700 hover:bg-zinc-700 hover:text-zinc-200"
-                            }`}
-                        title={isLocked ? "Unlock Camera" : "Lock Camera"}
-                    >
-                        {isLocked ? <Lock size={14} /> : <Unlock size={14} />}
-                    </button>
-                </div>
+            <div className="space-y-6 pt-2">
 
                 {/* Sliders Section */}
-                <label className="block">
-                    <div className="flex justify-between mb-1">
-                        <span className="font-bold text-indigo-400 text-xs">Latitude (φ)</span>
-                        <span className="font-mono text-xs text-zinc-300">{latitude.toFixed(1)}°</span>
+                <label className="block group">
+                    <div className="flex justify-between mb-2">
+                        <span className={`font-bold ${colors.textLat} text-xs uppercase tracking-wider`}>Latitude ({latitude.toFixed(1)}°)</span>
                     </div>
                     <input
                         type="range"
@@ -225,14 +232,28 @@ export default function Controls() {
                         step="0.1"
                         value={latitude}
                         onChange={(e) => setLatitude(parseFloat(e.target.value))}
-                        className="w-full h-1.5 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-indigo-500 hover:accent-indigo-400"
+                        className={`w-full h-2 rounded-lg appearance-none cursor-pointer transition-all hover:h-3 ${colors.sliderLat}`}
                     />
                 </label>
 
-                <label className="block">
-                    <div className="flex justify-between mb-1">
-                        <span className="font-bold text-amber-400 text-xs">Declination (δ)</span>
-                        <span className="font-mono text-xs text-zinc-300">{declination.toFixed(1)}°</span>
+                <label className="block group">
+                    <div className="flex justify-between mb-2">
+                        <span className={`font-bold text-zinc-400 text-xs uppercase tracking-wider`}>Longitude ({longitude.toFixed(1)}°)</span>
+                    </div>
+                    <input
+                        type="range"
+                        min="-180"
+                        max="180"
+                        step="1"
+                        value={longitude}
+                        onChange={(e) => setLongitude(parseFloat(e.target.value))}
+                        className="w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-zinc-500 hover:accent-zinc-400 hover:h-3 transition-all"
+                    />
+                </label>
+
+                <label className="block group">
+                    <div className="flex justify-between mb-2">
+                        <span className={`font-bold ${colors.textDec} text-xs uppercase tracking-wider`}>Season / Declination ({declination.toFixed(1)}°)</span>
                     </div>
                     <input
                         type="range"
@@ -241,14 +262,18 @@ export default function Controls() {
                         step="0.1"
                         value={declination}
                         onChange={(e) => setDeclination(parseFloat(e.target.value))}
-                        className="w-full h-1.5 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-amber-500 hover:accent-amber-400"
+                        className={`w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer hover:h-3 transition-all ${colors.sliderDec}`}
                     />
+                    <div className="flex justify-between text-[10px] text-zinc-600 font-mono mt-1">
+                        <span>Winter</span>
+                        <span>Equinox</span>
+                        <span>Summer</span>
+                    </div>
                 </label>
 
-                <label className="block">
-                    <div className="flex justify-between mb-1">
-                        <span className="font-bold text-sky-400 text-xs">Hour Angle (ω)</span>
-                        <span className="font-mono text-xs text-zinc-300">{hourAngle.toFixed(1)}°</span>
+                <label className="block group">
+                    <div className="flex justify-between mb-2">
+                        <span className={`font-bold ${colors.textHA} text-xs uppercase tracking-wider`}>Time / Hour Angle ({hourAngle.toFixed(0)}°)</span>
                     </div>
                     <input
                         type="range"
@@ -257,32 +282,79 @@ export default function Controls() {
                         step="1"
                         value={hourAngle}
                         onChange={(e) => setHourAngle(parseFloat(e.target.value))}
-                        className="w-full h-1.5 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-sky-500 hover:accent-sky-400"
+                        className={`w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer hover:h-3 transition-all ${colors.sliderHA}`}
                     />
+                    <div className="flex justify-between text-[10px] text-zinc-600 font-mono mt-1">
+                        <span>Midnight</span>
+                        <span>Noon</span>
+                        <span>Midnight</span>
+                    </div>
                 </label>
+
+                {/* VISUALS: Sun Path Toggle */}
+                <div className="flex justify-between items-center pt-2 border-t border-zinc-800">
+                    <span className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Visuals</span>
+                    <button
+                        onClick={() => setShowSunPath(!showSunPath)}
+                        className={`px-3 py-1.5 rounded-md text-[10px] font-bold transition-all border ${showSunPath
+                            ? 'bg-amber-500/20 text-amber-500 border-amber-500/50'
+                            : 'bg-zinc-800 text-zinc-400 border-zinc-700 hover:text-zinc-200'}`}
+                    >
+                        {showSunPath ? 'Hide Sun Path' : 'Show Sun Path'}
+                    </button>
+                </div>
             </div>
 
-            {/* PHYSICS MODE EXTRAS */}
+            {/* PHYSICS DASHBOARD */}
             {labMode === 'physics' && (
-                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-zinc-800">
-                    <button onClick={() => applyPreset(0, 0, 0)} className="preset-btn">📍 Equator</button>
-                    <button onClick={() => applyPreset(90, 23.5, 0)} className="preset-btn">☀️ Midnight Sun</button>
-                    <button onClick={() => applyPreset(40.7, -23.5, 0)} className="preset-btn">❄️ NYC Winter</button>
-                    <button onClick={() => applyPreset(51.5, 23.5, 0)} className="preset-btn">☔ London Summer</button>
+                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-zinc-800 animate-in fade-in">
+                    <div className="bg-zinc-800/50 p-2 rounded-lg border border-zinc-700/50">
+                        <span className="text-[10px] text-zinc-500 uppercase block">Daylight</span>
+                        <span className="text-sm font-bold text-zinc-200">
+                            {(() => {
+                                // cos(H) = -tan(phi)tan(delta)
+                                // H in radians. Daylight = 2H. (2H/2PI * 24h) = H * 24/PI
+                                const val = -Math.tan(latRad) * Math.tan(decRad);
+                                if (val < -1) return "24.0h"; // Midnight Sun
+                                if (val > 1) return "0.0h";   // Polar Night
+                                const h = Math.acos(val);
+                                const hours = (h * 2 / Math.PI) * 12; // Wait: h is half-day in rad (0..PI). Daylight fraction = h/PI. *24 hours.
+                                return `${hours.toFixed(1)}h`;
+                            })()}
+                        </span>
+                    </div>
+                    <div className="bg-zinc-800/50 p-2 rounded-lg border border-zinc-700/50">
+                        <span className="text-[10px] text-zinc-500 uppercase block">Max Elev</span>
+                        <span className="text-sm font-bold text-zinc-200">
+                            {/* 90 - |lat - dec| */}
+                            {(90 - Math.abs(latitude - declination)).toFixed(1)}°
+                        </span>
+                    </div>
+                    <div className="bg-zinc-800/50 p-2 rounded-lg border border-zinc-700/50">
+                        <span className="text-[10px] text-zinc-500 uppercase block">Solar Power</span>
+                        <span className="text-sm font-bold text-amber-400">
+                            {/* Relative Irradiance on Horizontal */}
+                            {(Math.max(0, Math.sin(altRad)) * 100).toFixed(0)}%
+                        </span>
+                    </div>
+                    <div className="bg-zinc-800/50 p-2 rounded-lg border border-zinc-700/50">
+                        <span className="text-[10px] text-zinc-500 uppercase block">Shadow</span>
+                        <span className="text-sm font-bold text-zinc-400">
+                            {altitude > 0 ? (1 / Math.tan(Math.max(0.01, altRad))).toFixed(1) + "x" : "∞"}
+                        </span>
+                    </div>
                 </div>
             )}
 
+
+
+
             {/* PANEL MODE CONTROLS */}
             {labMode === 'panel' && (
-                <div className="space-y-4 pt-4 border-t border-zinc-800 animate-in fade-in slide-in-from-top-2">
-                    <div className="flex justify-between items-center pb-2">
-                        <span className="text-xs font-bold text-amber-500 uppercase tracking-wider">Panel Configuration</span>
-                    </div>
-
-                    <label className="block">
-                        <div className="flex justify-between mb-1">
-                            <span className="font-bold text-zinc-300 text-xs">Panel Tilt (β)</span>
-                            <span className="font-mono text-xs text-zinc-300">{panelTilt.toFixed(0)}°</span>
+                <div className="space-y-6 pt-6 border-t border-zinc-800">
+                    <label className="block group">
+                        <div className="flex justify-between mb-2">
+                            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Tilt / Beta ({panelTilt.toFixed(0)}°)</span>
                         </div>
                         <input
                             type="range"
@@ -291,18 +363,13 @@ export default function Controls() {
                             step="1"
                             value={panelTilt}
                             onChange={(e) => setPanelTilt(parseFloat(e.target.value))}
-                            className="w-full h-1.5 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-amber-500 hover:accent-amber-400"
+                            className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-red-500 hover:h-3 transition-all bg-zinc-700"
                         />
-                        <div className="flex justify-between text-[10px] text-zinc-500 mt-1">
-                            <span>Flat (0°)</span>
-                            <span>Vertical (90°)</span>
-                        </div>
                     </label>
 
-                    <label className="block">
-                        <div className="flex justify-between mb-1">
-                            <span className="font-bold text-zinc-300 text-xs">Panel Azimuth (γ)</span>
-                            <span className="font-mono text-xs text-zinc-300">{panelAzimuth.toFixed(0)}°</span>
+                    <label className="block group">
+                        <div className="flex justify-between mb-2">
+                            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Azimuth / Gamma ({panelAzimuth.toFixed(0)}°)</span>
                         </div>
                         <input
                             type="range"
@@ -311,75 +378,60 @@ export default function Controls() {
                             step="5"
                             value={panelAzimuth}
                             onChange={(e) => setPanelAzimuth(parseFloat(e.target.value))}
-                            className="w-full h-1.5 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-amber-500 hover:accent-amber-400"
+                            className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-red-500 hover:h-3 transition-all bg-zinc-700"
                         />
-                        <div className="flex justify-between text-[10px] text-zinc-500 mt-1">
-                            <span>N (0°)</span>
+                        <div className="flex justify-between text-[10px] text-zinc-600 font-mono mt-1">
+                            <span>N</span>
                             <span>E</span>
-                            <span>S (180°)</span>
+                            <span>S</span>
                             <span>W</span>
                             <span>N</span>
                         </div>
                     </label>
+
+                    {/* Auto-Optimize Button */}
+                    <button
+                        onClick={() => {
+                            if (altitude > 0) {
+                                // 1. Set Tilt to Zenith Angle (face the sun vertically)
+                                setPanelTilt(parseFloat(zenith.toFixed(1)));
+                                // 2. Set Azimuth to visual Sun Azimuth (face the sun horizontally)
+                                let azDeg = toDeg(sunAzimuthStruct);
+                                // Normalize to 0-360
+                                if (azDeg < 0) azDeg += 360;
+                                if (azDeg >= 360) azDeg %= 360;
+                                setPanelAzimuth(parseFloat(azDeg.toFixed(1)));
+                            } else {
+                                // Night optimization (Just point up or South?)
+                                setPanelTilt(0);
+                            }
+                        }}
+                        className={`w-full py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all border flex items-center justify-center gap-2
+                            ${panelEfficiency > 0.99
+                                ? 'bg-green-500 text-black border-green-500 cursor-default'
+                                : 'bg-zinc-800 text-amber-500 border-amber-900/50 hover:bg-amber-900/20 hover:border-amber-500'
+                            }`}
+                    >
+                        {panelEfficiency > 0.99 ? (
+                            <><span>✓ Optimized</span></>
+                        ) : (
+                            <>
+                                <Zap size={14} />
+                                <span>Auto-Align Panel</span>
+                            </>
+                        )}
+                    </button>
+
+                    {/* Simple Efficiency Pill */}
+                    <div className={`p-4 rounded-xl border text-center transition-colors ${panelEfficiency > 0.9 ? 'bg-green-500/10 border-green-500/30' : 'bg-zinc-800/50 border-zinc-700'}`}>
+                        <div className="text-xs uppercase font-bold text-zinc-500 tracking-widest mb-1">Efficiency</div>
+                        <div className={`text-3xl font-black ${panelEfficiency > 0.9 ? 'text-green-400' : 'text-zinc-200'}`}>
+                            {(panelEfficiency * 100).toFixed(0)}%
+                        </div>
+                    </div>
                 </div>
             )}
 
-            {/* SHARED HUD with Conditional Metrics */}
-            <div className="bg-zinc-900/80 p-4 rounded-xl border border-zinc-700 space-y-4 mt-4">
-                <h3 className="text-xs font-bold uppercase text-zinc-500 tracking-wider mb-2">
-                    {labMode === 'physics' ? 'Physics Telemetry' : 'Energy Output'}
-                </h3>
-
-                <div className="grid grid-cols-2 gap-4">
-                    {/* Column 1: Angles */}
-                    <div className="space-y-3">
-                        <div>
-                            <span className="text-xs text-zinc-400 block">Solar Altitude (α)</span>
-                            <span className="font-mono text-md font-bold text-white">{altitude.toFixed(1)}°</span>
-                        </div>
-                        {labMode === 'physics' ? (
-                            <div>
-                                <span className="text-xs text-zinc-400 block">Zenith Angle (θ)</span>
-                                <span className="font-mono text-md font-bold text-zinc-300">{zenith.toFixed(1)}°</span>
-                            </div>
-                        ) : (
-                            <div>
-                                <span className="text-xs text-zinc-400 block">Incidence Angle</span>
-                                <span className="font-mono text-md font-bold text-zinc-300">
-                                    {(Math.acos(panelEfficiency) * 180 / Math.PI).toFixed(1)}°
-                                </span>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Column 2: Implications */}
-                    <div className="space-y-3">
-                        <div>
-                            <span className="text-xs text-zinc-400 block">
-                                {labMode === 'physics' ? 'Relative Energy' : 'Panel Efficiency'}
-                            </span>
-                            <div className="flex items-center gap-2">
-                                <span className={`font-mono text-xl font-bold ${labMode === 'panel' && panelEfficiency > 0.9 ? 'text-green-400' : 'text-yellow-400'}`}>
-                                    {((labMode === 'physics' ? relativeEnergy : panelEfficiency) * 100).toFixed(0)}%
-                                </span>
-                                {/* Mini Bar Chart */}
-                                <div className="h-1.5 w-full bg-zinc-700 rounded-full overflow-hidden">
-                                    <div
-                                        className={`h-full ${labMode === 'panel' && panelEfficiency > 0.9 ? 'bg-green-400' : 'bg-yellow-400'}`}
-                                        style={{ width: `${(labMode === 'physics' ? relativeEnergy : panelEfficiency) * 100}%` }}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <style jsx>{`
-                .preset-btn {
-                    @apply px-2 py-1.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded text-[10px] font-medium text-zinc-300 transition-colors whitespace-nowrap;
-                }
-            `}</style>
-        </div>
+        </div >
     );
 }
