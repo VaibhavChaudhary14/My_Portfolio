@@ -17,6 +17,8 @@ import rehypeKatex from "rehype-katex";
 import { Mermaid } from "@/components/mdx/Mermaid";
 import { HFEmbed } from "@/components/mdx/HFEmbed";
 
+import { Divider } from "@/components/mdx/Divider";
+
 export async function generateStaticParams() {
     const posts = getAllPosts();
     return posts.map((post) => ({
@@ -43,6 +45,7 @@ export default async function BlogPost({ params }: Props) {
         },
         components: {
             Callout,
+            Divider,
             SortableTable,
             LighthouseScore,
             Citation,

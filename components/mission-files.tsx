@@ -37,10 +37,20 @@ const projects: Project[] = [
   },
 
   {
+    id: "3",
+    title: "Science Labs",
+    description: "A specialized playground for interactive physics simulations and AI-driven scientific experiments.",
+    tech: ["Three.js", "React Three Fiber", "Gemini AI", "Next.js", "Vector Math"],
+    live: "/lab",
+    color: "bg-amber-100",
+    venomColor: "border-amber-500 shadow-[4px_4px_0px_0px_#f59e0b]"
+  },
+  {
     id: "4",
     title: "Portfolio",
     description: "My personal website built with Next.js and Tailwind CSS. You are looking at it right now!",
     tech: ["Next.js", "Tailwind", "Framer Motion", "TypeScript", "Gemini API", "Resend"],
+    github: "https://github.com/VaibhavChaudhary14/My_Portfolio",
     color: "bg-purple-200",
     venomColor: "border-purple-500 shadow-[4px_4px_0px_0px_#a855f7]"
   }

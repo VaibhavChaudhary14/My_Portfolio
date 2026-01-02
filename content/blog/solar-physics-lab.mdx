@@ -1,0 +1,87 @@
+---
+title: "Solar Physics Lab: Reconstructing Orbital Mechanics in the Browser"
+date: "2026-01-03"
+excerpt: "Transforming abstract celestial mechanics into a visually immersive, scientifically grounded tool. From static diagrams to a real-time spatial reasoning engine."
+---
+
+# Phase 2: Mission Accomplished
+
+**Goal:** Transform the simulator from a basic orbital-geometry demo into a visually immersive, scientifically grounded, and pedagogically effective science communication tool.
+
+**Outcome:** Phase 2 successfully bridges abstract celestial mechanics and human visual intuition, allowing users to see, feel, and reason about solar geometry in real time.
+
+---
+
+## ✨ Key Capabilities Delivered
+
+### 1️⃣ Visual Realism & Immersion (The “Believability Layer”)
+**Physically Inspired Earth:**
+- **High-resolution Textures:** NASA-derived Albedo (surface color), Normal (terrain relief), and Specular (oceans & ice reflectivity) maps make the Earth behave like a real body.
+- **Atmosphere & Space:** A custom atmospheric glow simulates Rayleigh scattering at the limb, providing immediate cues for curvature and scale.
+- **Dynamic Lighting:** A dedicated Sun mesh emits directional light and casts physically consistent shadows, creating an environment users intuitively trust.
+
+### 2️⃣ Scientific Visualization — Cause → Effect
+Phase 2 makes the entire causal chain visible:
+
+**🌐 Global Geometry (Cause: Orbital Physics)**
+Rendered directly on the globe:
+- <span style={{color: '#f43f5e', fontWeight: 'bold'}}>Latitude (φ)</span>: Red arc displaying the observer's angular distance from the equator.
+- <span style={{color: '#f59e0b', fontWeight: 'bold'}}>Declination (δ)</span>: Amber arc showing the Sun's seasonal displacement from the celestial equator.
+- <span style={{color: '#06b6d4', fontWeight: 'bold'}}>Hour Angle (ω)</span>: Cyan arc visualizing Earth's rotation relative to the Sun (time of day).
+
+These are no longer just sliders—they are geometric facts acting on the world.
+
+**🧍 Local Observer Frame (Effect: Human Experience)**
+At the observer's location:
+- **3D Human Model:** Provides critical scale and anchors abstract vectors to human perception.
+- **Dynamic Shadow System:** Real-time shadow length ($L = h/\tan(\alpha)$) and direction makes solar altitude immediately intuitive.
+- **Compass Rose & Arcs:** Explicit visualization of Solar Altitude ($\alpha$) and Zenith Angle ($\theta$) directly links geometry to cosine energy loss.
+
+### 3️⃣ Experience & UX (From Tool → Instrument)
+**🧪 Guided Presets:** One-click scenarios like "Equinox", "Midnight Sun", and "NYC Winter" lock the system into meaningful configurations for comparison-based learning.
+
+**🖥️ Layout Control:** Fullscreen Mode (⛶) and Locked Camera Mode facilitate immersive demonstrations and guided explanations.
+
+### 4️⃣ Intelligent Analyst (AI as a Scientific Companion)
+**🤖 Multi-Persona AI (Gemini-Powered):**
+- **Child:** Metaphors and zero jargon.
+- **Student:** Correct terminology and conceptual clarity.
+- **Researcher:** Concise, quantitative insights.
+
+The AI analyzes the *exact* vector state of the simulation to provide context-aware explanations, explaining what the user is seeing rather than reciting generic facts.
+
+---
+
+## 🛠️ Technical Implementation
+
+**🧮 Core Math Engine (`SolarScene.tsx`)**
+The simulation is driven by spherical trigonometry, not animation interpolation.
+- **Inputs:** Latitude ($\phi$), Declination ($\delta$), Hour Angle ($\omega$).
+- **Vector Transformation:**
+  $$
+  x = \cos(\delta)\sin(\omega)
+  $$
+  $$
+  y = \sin(\delta)
+  $$
+  $$
+  z = \cos(\delta)\cos(\omega)
+  $$
+- **Observer Reference Frame:** A constructed local basis (East, Zenith, North) ensures accurate horizon planes and sky geometry anywhere on Earth.
+
+**🧠 State Architecture (`useSolarStore.ts`)**
+Zustand acts as all-encompassing truth layer, syncing the UI Controls, the 3D Render, and the AI Analyst without duplication or desync.
+
+---
+
+## 🔮 Future Roadmap (Phase 3)
+
+The foundation is now strong enough to support advanced features:
+
+1.  **Time Animation:** Animate Hour Angle to observe sunrise/sunset transitions and energy curves.
+2.  **Annual Motion:** Animate Declination to visualize the Analemma and solstices.
+3.  **Advanced Light Transport:** Ray tracing-style scattering and wavelength-dependent atmospheric effects.
+
+<Callout type="success">
+<strong>Try it now:</strong> Navigate to the <a href="/lab/solar-physics" style={{textDecoration: 'underline'}}>Symbiote Lab</a> to launch the simulation.
+</Callout>

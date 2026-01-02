@@ -1,8 +1,10 @@
 import { Info, CheckCircle, AlertTriangle, XCircle, Lightbulb } from "lucide-react";
 import { ReactNode } from "react";
 
+
 type CalloutProps = {
     type?: "info" | "success" | "warning" | "danger" | "tip";
+    color?: "blue" | "green" | "yellow" | "amber" | "red" | "purple" | "indigo";
     title?: string;
     children: ReactNode;
 };
@@ -17,8 +19,8 @@ const styles = {
         icon: <CheckCircle className="w-5 h-5 text-green-500 mt-0.5" />,
     },
     warning: {
-        container: "border-yellow-400 bg-yellow-50 text-yellow-900",
-        icon: <AlertTriangle className="w-5 h-5 text-yellow-500 mt-0.5" />,
+        container: "border-amber-400 bg-amber-50 text-amber-900",
+        icon: <AlertTriangle className="w-5 h-5 text-amber-500 mt-0.5" />,
     },
     danger: {
         container: "border-red-400 bg-red-50 text-red-900",
@@ -28,10 +30,27 @@ const styles = {
         container: "border-purple-400 bg-purple-50 text-purple-900",
         icon: <Lightbulb className="w-5 h-5 text-purple-500 mt-0.5" />,
     },
+    indigo: {
+        container: "border-indigo-400 bg-indigo-50 text-indigo-900",
+        icon: <Info className="w-5 h-5 text-indigo-500 mt-0.5" />,
+    }
 };
 
-export function Callout({ type = "info", title, children }: CalloutProps) {
-    const { container, icon } = styles[type];
+export function Callout({ type = "info", color, title, children }: CalloutProps) {
+    // Map colors to types or use direct style if matched
+    let styleKey: keyof typeof styles = type as keyof typeof styles;
+    if (color) {
+        if (color === "blue") styleKey = "info";
+        else if (color === "green") styleKey = "success";
+        else if (color === "yellow" || color === "amber") styleKey = "warning";
+        else if (color === "red") styleKey = "danger";
+        else if (color === "purple") styleKey = "tip";
+        else if (color === "indigo") styleKey = "indigo"; // We added indigo support
+    }
+
+    // Fallback if styleKey doesn't exist (though typescript ensures it does mostly)
+    const style = styles[styleKey as keyof typeof styles] || styles.info;
+    const { container, icon } = style;
 
     return (
         <div className={`my-8 rounded-r-lg border-l-4 p-5 flex gap-4 ${container} shadow-sm`}>
