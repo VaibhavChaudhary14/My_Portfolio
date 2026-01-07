@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Patrick_Hand, Comic_Neue } from "next/font/google";
+import { Patrick_Hand, Comic_Neue, Outfit } from "next/font/google";
 import "./global.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import ClientThemeWrapper from "@/components/client-theme-wrapper";
@@ -17,6 +17,11 @@ const comicNeue = Comic_Neue({
   weight: ["300", "400", "700"],
   subsets: ["latin"],
   variable: "--font-comic",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
 });
 
 export const metadata: Metadata = {
@@ -44,7 +49,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning className={`${patrickHand.variable} ${comicNeue.variable} font-sans bg-[#fbfbfb] text-zinc-900 dark:bg-venom-black dark:text-venom-white`}>
+      <body suppressHydrationWarning className={`${patrickHand.variable} ${comicNeue.variable} ${outfit.variable} font-sans bg-[#fbfbfb] text-zinc-900 dark:bg-venom-black dark:text-venom-white`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ClientThemeWrapper>
             <ChatWidget />

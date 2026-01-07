@@ -30,10 +30,19 @@ const config: Config = {
         "venom-white": "#f4f4f5", // Stark White
         "venom-slime": "#84cc16", // Toxic Lime
         "venom-purple": "#a855f7", // Symbiote Accent
+        'spidy-red': '#ef4444', // Classic Red
+        'spidy-blue': '#3b82f6', // Classic Blue
       },
       boxShadow: {
         'neobrutalism': '4px 4px 0px 0px #18181b',
+        'neobrutalism-lg': '8px 8px 0px 0px #18181b',
         'neobrutalism-sm': '2px 2px 0px 0px #18181b',
+        'venom': '4px 4px 0px 0px #84cc16',
+        'venom-lg': '8px 8px 0px 0px #84cc16',
+        'spidy': '4px 4px 0px 0px #3b82f6', // Blue Shadow
+        'spidy-lg': '8px 8px 0px 0px #3b82f6', // Blue Shadow Large
+        'indigo': '4px 4px 0px 0px #6366f1',
+        'red-neo': '4px 4px 0px 0px #ef4444',
       },
     },
   },

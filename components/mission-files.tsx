@@ -35,6 +35,15 @@ const projects: Project[] = [
     color: "bg-blue-200",
     venomColor: "border-blue-500 shadow-[4px_4px_0px_0px_#3b82f6]"
   },
+  {
+    id: "5",
+    title: "X Automator Agent",
+    description: "An AI agent that automates social engagement using Sim.ai visually designed workflows. Features persona-based replies and RAG.",
+    tech: ["Sim.ai", "LLMs", "RAG", "Automation", "Python"],
+    live: "/x-agent",
+    color: "bg-red-200",
+    venomColor: "border-red-500 shadow-[4px_4px_0px_0px_#ef4444]"
+  },
 
   {
     id: "3",
@@ -158,7 +167,7 @@ export default function MissionFiles() {
                           </a>
                         )}
                         {project.live && (
-                          <a href={project.live} target="_blank" className={`flex items-center gap-2 px-6 py-3 font-bold border-2 rounded transition-colors ${theme === 'venom' ? 'bg-transparent text-venom-slime border-venom-slime hover:bg-venom-slime/10' : 'bg-white text-black border-black hover:bg-gray-50'}`}>
+                          <a href={project.live} target={project.live.startsWith("http") ? "_blank" : "_self"} className={`flex items-center gap-2 px-6 py-3 font-bold border-2 rounded transition-colors ${theme === 'venom' ? 'bg-transparent text-venom-slime border-venom-slime hover:bg-venom-slime/10' : 'bg-white text-black border-black hover:bg-gray-50'}`}>
                             <ExternalLink size={20} />
                             Live Demo
                           </a>
