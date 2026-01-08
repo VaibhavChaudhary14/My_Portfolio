@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import ClientThemeWrapper from "@/components/client-theme-wrapper";
 import { BackButton } from "@/components/back-button";
 import { ChatWidget } from "@/components/chat-widget";
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const patrickHand = Patrick_Hand({
@@ -55,6 +56,7 @@ export default function RootLayout({
             <ChatWidget />
             <BackButton />
             <SpeedInsights />
+            <Analytics />
             {children}
           </ClientThemeWrapper>
         </ThemeProvider>
