@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { runSimWorkflow } from "@/app/actions/sim-agent";
 import { Loader2, Send, Terminal, AlertCircle, Sparkles, Search, MessageCircle, Hash, Activity, Cpu, Zap, History, ExternalLink, ShieldCheck, Database, BrainCircuit, BarChart3, Lock, Delete } from "lucide-react";
@@ -50,6 +50,18 @@ const SecurityLock = ({ onUnlock, theme }: { onUnlock: () => void, theme: string
 
     const handleDelete = () => setPin(prev => prev.slice(0, -1));
 
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key >= '0' && e.key <= '9') {
+                handlePress(e.key);
+            } else if (e.key === 'Backspace') {
+                handleDelete();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [pin]);
+
     return (
         <div className={`fixed inset-0 z-50 flex flex-col items-center justify-center ${theme === 'venom' ? 'bg-black text-venom-slime' : 'bg-red-50 text-red-600'}`}>
             <div className={`absolute inset-0 opacity-10 pointer-events-none ${theme === 'venom' ? 'graph-grid invert' : 'graph-grid'}`} />
@@ -57,17 +69,17 @@ const SecurityLock = ({ onUnlock, theme }: { onUnlock: () => void, theme: string
             <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="relative z-10 flex flex-col items-center gap-8 p-8"
+                className="relative z-10 flex flex-col items-center gap-6 p-6"
             >
-                <div className="flex flex-col items-center gap-4 mb-8">
-                    <div className={`p-6 rounded-full border-4 ${theme === 'venom' ? 'border-venom-slime bg-zinc-900' : 'border-red-600 bg-white'}`}>
-                        <Lock size={48} className={error ? "animate-shake text-red-500" : ""} />
+                <div className="flex flex-col items-center gap-4 mb-4">
+                    <div className={`p-4 rounded-full border-4 ${theme === 'venom' ? 'border-venom-slime bg-zinc-900' : 'border-red-600 bg-white'}`}>
+                        <Lock size={32} className={error ? "animate-shake text-red-500" : ""} />
                     </div>
-                    <h1 className="text-2xl font-black uppercase tracking-[0.5em] text-center">Security Clearance</h1>
+                    <h1 className="text-xl font-black uppercase tracking-[0.5em] text-center">Security Clearance</h1>
                 </div>
 
                 {/* PIN Display */}
-                <div className="flex gap-4 mb-8">
+                <div className="flex gap-4 mb-6">
                     {[0, 1, 2, 3].map(i => (
                         <div key={i} className={`w-4 h-4 rounded-full border-2 ${pin.length > i
                             ? (theme === 'venom' ? 'bg-venom-slime border-venom-slime' : 'bg-red-600 border-red-600')
@@ -77,12 +89,12 @@ const SecurityLock = ({ onUnlock, theme }: { onUnlock: () => void, theme: string
                 </div>
 
                 {/* Keypad */}
-                <div className="grid grid-cols-3 gap-6 w-full max-w-xs">
+                <div className="grid grid-cols-3 gap-4 w-full max-w-xs">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
                         <button
                             key={num}
                             onClick={() => handlePress(num.toString())}
-                            className={`h-20 rounded-2xl text-2xl font-black border-2 neo-shadow active:translate-y-1 active:shadow-none transition-all
+                            className={`h-16 rounded-xl text-xl font-black border-2 neo-shadow active:translate-y-1 active:shadow-none transition-all
                                 ${theme === 'venom' ? 'border-venom-slime hover:bg-zinc-900' : 'border-red-600 hover:bg-red-50'}`}
                         >
                             {num}
@@ -91,17 +103,17 @@ const SecurityLock = ({ onUnlock, theme }: { onUnlock: () => void, theme: string
                     <div />
                     <button
                         onClick={() => handlePress("0")}
-                        className={`h-20 rounded-2xl text-2xl font-black border-2 neo-shadow active:translate-y-1 active:shadow-none transition-all
+                        className={`h-16 rounded-xl text-xl font-black border-2 neo-shadow active:translate-y-1 active:shadow-none transition-all
                             ${theme === 'venom' ? 'border-venom-slime hover:bg-zinc-900' : 'border-red-600 hover:bg-red-50'}`}
                     >
                         0
                     </button>
                     <button
                         onClick={handleDelete}
-                        className={`h-20 rounded-2xl flex items-center justify-center border-2 neo-shadow active:translate-y-1 active:shadow-none transition-all
+                        className={`h-16 rounded-xl flex items-center justify-center border-2 neo-shadow active:translate-y-1 active:shadow-none transition-all
                             ${theme === 'venom' ? 'border-venom-slime text-red-500 hover:bg-zinc-900' : 'border-red-600 text-red-600 hover:bg-red-50'}`}
                     >
-                        <Delete size={24} />
+                        <Delete size={20} />
                     </button>
                 </div>
             </motion.div>

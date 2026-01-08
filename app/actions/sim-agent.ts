@@ -45,7 +45,27 @@ export async function runSimWorkflow(payload: SimPayload) {
 
         if (!response.ok) {
             const text = await response.text();
-            return { error: `API Error: ${response.status} ${text}` };
+            let errorMessage = `API Error: ${response.status}`;
+
+            try {
+                // Try to parse the error as JSON first
+                const errorJson = JSON.parse(text);
+                // Sim.ai often returns the detailed error in an "ERROR" field or just the raw text
+                const rawError = errorJson.ERROR || JSON.stringify(errorJson);
+
+                if (rawError.includes("FAILED TO REFRESH ACCESS TOKEN")) {
+                    errorMessage = "Authentication Failed: X (Twitter) connection expired. Please reconnect in Sim.ai dashboard.";
+                } else if (rawError.includes("TOO MANY REQUESTS")) {
+                    errorMessage = "Rate Limited: X API limits reached. Please wait 15-30 minutes and try again.";
+                } else {
+                    errorMessage = `Sim.ai Error: ${rawError}`;
+                }
+            } catch (e) {
+                // If it's not JSON, use the raw text (truncated if too long)
+                errorMessage = `API Error: ${response.status} - ${text.substring(0, 200)}`;
+            }
+
+            return { error: errorMessage };
         }
 
         const data = await response.json();

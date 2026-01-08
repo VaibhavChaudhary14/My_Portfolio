@@ -32,7 +32,7 @@ export default function AutopilotStatus() {
                     <Clock size={14} className={theme === 'venom' ? 'text-venom-purple' : 'text-zinc-400'} />
                     <div>
                         <p className={`uppercase tracking-tighter ${theme === 'venom' ? 'text-venom-slime' : 'text-zinc-500'}`}>NEXT_RUN</p>
-                        <p className={`italic ${theme === 'venom' ? 'text-blue-400' : 'text-spidy-blue'}`}>:30 (Hourly)</p>
+                        <p className={`italic ${theme === 'venom' ? 'text-blue-400' : 'text-spidy-blue'}`}>11:30 AM (Daily)</p>
                     </div>
                 </div>
 
