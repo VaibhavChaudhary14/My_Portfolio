@@ -30,6 +30,7 @@ jobs:
       
       - name: Upload Lighthouse results
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: lighthouse_results
           path: .lighthouseci
