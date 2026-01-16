@@ -1,14 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+    useEffect,
+    useState,
+    useRef
+} from "react";
 import { useThemeStore } from "@/store/useThemeStore";
 import { Users } from "lucide-react";
 
 export default function VisitorCounter() {
     const { theme } = useThemeStore();
     const [count, setCount] = useState<number | null>(null);
+    const hasFetched = useRef(false);
 
     useEffect(() => {
+        if (hasFetched.current) return;
+        hasFetched.current = true;
+
         const fetchCount = async () => {
             try {
                 const res = await fetch("/api/visitors");
