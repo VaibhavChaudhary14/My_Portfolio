@@ -26,5 +26,10 @@ jobs:
         uses: treosh/lighthouse-ci-action@v10
         with:
           temporaryPublicStorage: true
-          uploadArtifacts: true
-          artifactName: lighthouse_results
+          uploadArtifacts: false
+      
+      - name: Upload Lighthouse results
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse_results
+          path: .lighthouseci
