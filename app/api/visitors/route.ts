@@ -1,23 +1,14 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { kv } from "@vercel/kv";
 
-const DB_PATH = path.join(process.cwd(), "data", "visitors.json");
-
-function getVisitorData() {
-    if (!fs.existsSync(DB_PATH)) return { count: 0 };
-    const file = fs.readFileSync(DB_PATH, "utf-8");
-    return JSON.parse(file);
-}
-
-function saveVisitorData(data: { count: number }) {
-    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 4));
-}
+export const runtime = 'edge';
 
 export async function GET() {
-    const db = getVisitorData();
-    db.count += 1;
-    saveVisitorData(db);
-
-    return NextResponse.json({ count: db.count });
+    try {
+        const count = await kv.incr("visitor_count");
+        return NextResponse.json({ count });
+    } catch (error) {
+        console.error("Failed to increment visitor count:", error);
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    }
 }
