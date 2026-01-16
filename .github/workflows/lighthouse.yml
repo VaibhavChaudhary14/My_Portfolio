@@ -26,4 +26,5 @@ jobs:
         uses: treosh/lighthouse-ci-action@v10
         with:
           temporaryPublicStorage: true
-          uploadArtifacts: false
+          uploadArtifacts: true
+          artifactName: lighthouse_results
