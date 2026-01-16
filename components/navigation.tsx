@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "./theme-toggle";
 import { useThemeStore } from "@/store/useThemeStore";
+import VisitorCounter from "@/components/visitor-counter";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,9 +31,12 @@ export default function Navigation() {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 border-b-2 px-4 py-3 transition-colors duration-500 ${theme === 'venom' ? 'bg-venom-black border-venom-slime text-white' : 'bg-white border-black text-zinc-900'}`}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <a href="#home" className={`text-2xl font-black tracking-tighter transition-colors ${theme === 'venom' ? 'hover:text-venom-slime' : 'hover:text-purple-600'}`}>
-          {theme === 'venom' ? "WE.ARE.VENOM" : "VAIBHAV.DEV"}
-        </a>
+        <div className="flex items-center">
+          <a href="#home" className={`text-2xl font-black tracking-tighter transition-colors ${theme === 'venom' ? 'hover:text-venom-slime' : 'hover:text-purple-600'}`}>
+            {theme === 'venom' ? "WE.ARE.VENOM" : "VAIBHAV.DEV"}
+          </a>
+          <VisitorCounter />
+        </div>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
