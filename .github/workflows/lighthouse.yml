@@ -25,5 +25,4 @@ jobs:
       - name: Run Lighthouse 
         uses: treosh/lighthouse-ci-action@v10
         with:
-          uploadArtifacts: true
           temporaryPublicStorage: true
