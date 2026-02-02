@@ -36,7 +36,7 @@ const projects: Project[] = [
     venomColor: "border-blue-500 shadow-[4px_4px_0px_0px_#3b82f6]"
   },
   {
-    id: "5",
+    id: "3",
     title: "X Automator Agent",
     description: "An AI agent that automates social engagement using Sim.ai visually designed workflows. Features persona-based replies and RAG.",
     tech: ["Sim.ai", "LLMs", "RAG", "Automation", "Python"],
@@ -46,7 +46,7 @@ const projects: Project[] = [
   },
 
   {
-    id: "3",
+    id: "4",
     title: "Science Labs",
     description: "A specialized playground for interactive physics simulations and AI-driven scientific experiments.",
     tech: ["Three.js", "React Three Fiber", "Gemini AI", "Next.js", "Vector Math"],
@@ -55,13 +55,23 @@ const projects: Project[] = [
     venomColor: "border-amber-500 shadow-[4px_4px_0px_0px_#f59e0b]"
   },
   {
-    id: "4",
+    id: "5",
     title: "Portfolio",
     description: "My personal website built with Next.js and Tailwind CSS. You are looking at it right now!",
     tech: ["Next.js", "Tailwind", "Framer Motion", "TypeScript", "Gemini API", "Resend"],
     github: "https://github.com/VaibhavChaudhary14/My_Portfolio",
     color: "bg-purple-200",
     venomColor: "border-purple-500 shadow-[4px_4px_0px_0px_#a855f7]"
+  },
+  {
+    id: "6",
+    title: "The Old Money Valentine",
+    description: "An interactive, cinematic storytelling experience with a '1950s Old Money' aesthetic. Features hand-gesture page turning and personalized narrative.",
+    tech: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Audio API"],
+    github: "https://github.com/VaibhavChaudhary14/For_You",
+    live: "https://special14.vercel.app/",
+    color: "bg-rose-200",
+    venomColor: "border-rose-500 shadow-[4px_4px_0px_0px_#f43f5e]"
   }
 ];
 
