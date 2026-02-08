@@ -13,6 +13,8 @@
     "@google/generative-ai": "^0.24.1",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
+    "@supabase-js/source": "github:supabase/supabase-js",
+    "@supabase/supabase-js": "^2.39.0",
     "@upstash/redis": "^1.36.1",
     "@vercel/analytics": "^1.6.1",
     "@vercel/kv": "^3.0.0",
@@ -39,9 +41,11 @@
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
     "resend": "^6.6.0",
+    "supabase": "^2.75.3",
     "tailwind-merge": "^2.2.0",
     "tailwind-scrollbar": "^4.0.2",
     "three": "^0.182.0",
+    "twitter-api-v2": "^1.29.0",
     "zustand": "^4.5.0"
   },
   "devDependencies": {

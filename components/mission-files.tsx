@@ -37,10 +37,10 @@ const projects: Project[] = [
   },
   {
     id: "3",
-    title: "X Automator Agent",
-    description: "An AI agent that automates social engagement using Sim.ai visually designed workflows. Features persona-based replies and RAG.",
-    tech: ["Sim.ai", "LLMs", "RAG", "Automation", "Python"],
-    live: "/x-agent",
+    title: "XOS Automator",
+    description: "An in-house, end-to-end automation system for X. Features Content Pipeline, Engagement Listener, and Auto-Pilot Actions built with Next.js & OpenAI.",
+    tech: ["Next.js", "OpenAI", "Supabase", "TypeScript", "Node.js"],
+    live: "/xos",
     color: "bg-red-200",
     venomColor: "border-red-500 shadow-[4px_4px_0px_0px_#ef4444]"
   },
@@ -72,6 +72,16 @@ const projects: Project[] = [
     live: "https://special14.vercel.app/",
     color: "bg-rose-200",
     venomColor: "border-rose-500 shadow-[4px_4px_0px_0px_#f43f5e]"
+  },
+  {
+    id: "7",
+    title: "Deep Mind",
+    description: "The high-performance monetering system for Everyone. A local-first, AI-powered career accelerator.",
+    tech: ["Next.js 14", "Tailwind CSS", "Supabase", "Dexie.js", "Gemini Pro"],
+    github: "https://github.com/VaibhavChaudhary14/Deep_Mind",
+    live: "https://yourdm.vercel.app/",
+    color: "bg-indigo-200",
+    venomColor: "border-indigo-500 shadow-[4px_4px_0px_0px_#6366f1]"
   }
 ];
 
