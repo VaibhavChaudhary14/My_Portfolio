@@ -35,15 +35,7 @@ const projects: Project[] = [
     color: "bg-blue-200",
     venomColor: "border-blue-500 shadow-[4px_4px_0px_0px_#3b82f6]"
   },
-  {
-    id: "3",
-    title: "XOS Automator",
-    description: "An in-house, end-to-end automation system for X. Features Content Pipeline, Engagement Listener, and Auto-Pilot Actions built with Next.js & OpenAI.",
-    tech: ["Next.js", "OpenAI", "Supabase", "TypeScript", "Node.js"],
-    live: "/xos",
-    color: "bg-red-200",
-    venomColor: "border-red-500 shadow-[4px_4px_0px_0px_#ef4444]"
-  },
+
 
   {
     id: "4",
