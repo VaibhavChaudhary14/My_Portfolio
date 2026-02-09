@@ -53,7 +53,7 @@ export class ContentProcessor {
             // 3. Act on Decision
             if (decision.intent.action === 'ignore') {
                 await this.store.addLog({
-                    module: 'INTEL',
+                    component: 'INTEL',
                     level: 'INFO',
                     message: `[Ignored] Conf: ${(decision.intent.confidence * 100).toFixed(0)}%. Reason: ${decision.intent.rationale.substring(0, 40)}...`
                 });
@@ -63,7 +63,7 @@ export class ContentProcessor {
             // New Thresholds: < 0.60 Ignore, 0.60-0.75 Draft, > 0.75 Auto-Post (Simulated)
             if (decision.intent.confidence < 0.60) {
                 await this.store.addLog({
-                    module: 'INTEL',
+                    component: 'INTEL',
                     level: 'WARN',
                     message: `[Low Confidence] ${(decision.intent.confidence * 100).toFixed(0)}% is below 60% threshold.`
                 });
