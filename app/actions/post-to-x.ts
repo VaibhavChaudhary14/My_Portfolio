@@ -9,7 +9,7 @@ interface PostResult {
     mode: 'REAL' | 'SIMULATION';
 }
 
-export async function postToX(content: string): Promise<PostResult> {
+export async function postToX(content: string, replyToId?: string): Promise<PostResult> {
     const {
         TWITTER_API_KEY,
         TWITTER_API_SECRET,
@@ -29,7 +29,14 @@ export async function postToX(content: string): Promise<PostResult> {
             });
 
             const rwClient = client.readWrite;
-            const response = await rwClient.v2.tweet(content);
+            let response;
+
+            if (replyToId) {
+                console.log(`Replying to tweet: ${replyToId}`);
+                response = await rwClient.v2.reply(content, replyToId);
+            } else {
+                response = await rwClient.v2.tweet(content);
+            }
 
             return { success: true, data: response, mode: 'REAL' };
 
@@ -44,7 +51,11 @@ export async function postToX(content: string): Promise<PostResult> {
 
         return {
             success: true,
-            data: { id: "sim-" + Math.random().toString(36).substring(7), text: content },
+            data: {
+                id: "sim-" + Math.random().toString(36).substring(7),
+                text: content,
+                reply_to: replyToId
+            },
             mode: 'SIMULATION'
         };
     }
