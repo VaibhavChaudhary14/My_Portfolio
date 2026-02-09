@@ -29,7 +29,7 @@ export interface EngagementEvent {
 
 export interface SystemLog {
     id: string;
-    component: 'CONTENT' | 'DATA' | 'ACTION' | 'INTEL' | 'CRM' | 'KERNEL';
+    component: 'CONTENT' | 'DATA' | 'ACTION' | 'INTEL' | 'CRM' | 'KERNEL' | 'DISCOVERY';
     level: 'INFO' | 'WARN' | 'ERROR' | 'SUCCESS';
     message: string;
     timestamp: string;
