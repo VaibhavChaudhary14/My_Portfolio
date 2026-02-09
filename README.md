@@ -1,4 +1,4 @@
-# 🕷️ Peter Parker Portfolio - Dual Identity Portfolio
+# 🕷️ Vaibhav Chaudhary Portfolio - Dual Identity Portfolio
 
 A stunning portfolio website that toggles between two identities:
 - **Parker Mode**: Professional, clean, corporate tech vibe (Stark Industries)
