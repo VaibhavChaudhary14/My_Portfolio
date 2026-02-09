@@ -11,6 +11,10 @@ export class SupabaseStore {
         return SupabaseStore.instance;
     }
 
+    get supabase() {
+        return supabase;
+    }
+
     // --- READS ---
 
     async getQueue(): Promise<QueueItem[]> {

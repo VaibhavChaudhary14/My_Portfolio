@@ -104,19 +104,19 @@ export async function postReplyToX(postId: string, replyText: string, originalTw
 
         if (result.success) {
             // Update discovered_posts status
-            const supabase = store['supabase'];
+            const supabase = store.supabase;
             await supabase
                 .from('discovered_posts')
                 .update({
                     status: 'replied',
                     replied_at: new Date().toISOString(),
-                    reply_tweet_id: result.tweetId
+                    reply_tweet_id: result.data.id
                 })
                 .eq('id', postId);
 
             // Log to posted_tweets
             await supabase.from('posted_tweets').insert({
-                tweet_id: result.tweetId,
+                tweet_id: result.data.id,
                 content: replyText,
                 type: 'reply',
                 parent_post_id: postId
@@ -145,7 +145,7 @@ export async function postReplyToX(postId: string, replyText: string, originalTw
 export async function dismissDiscoveredPost(postId: string) {
     try {
         const store = SupabaseStore.getInstance();
-        const supabase = store['supabase'];
+        const supabase = store.supabase;
 
         await supabase
             .from('discovered_posts')
