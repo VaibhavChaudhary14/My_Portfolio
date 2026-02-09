@@ -249,7 +249,7 @@ Generate a reply:`;
      * Save discovered post to database
      */
     private async saveDiscoveredPost(post: DiscoveredPost): Promise<void> {
-        const supabase = this.store['supabase']; // Access private supabase client
+        const supabase = this.store.supabase; // Access private supabase client
 
         await supabase.from('discovered_posts').insert({
             post_id: post.post_id,
@@ -267,7 +267,7 @@ Generate a reply:`;
      * Get discovered posts from database
      */
     async getDiscoveredPosts(status?: string): Promise<DiscoveredPost[]> {
-        const supabase = this.store['supabase'];
+        const supabase = this.store.supabase;
 
         let query = supabase
             .from('discovered_posts')
@@ -292,7 +292,7 @@ Generate a reply:`;
      * Update discovered post with generated reply
      */
     async saveGeneratedReply(postId: string, reply: string, confidence: number): Promise<void> {
-        const supabase = this.store['supabase'];
+        const supabase = this.store.supabase;
 
         await supabase
             .from('discovered_posts')
