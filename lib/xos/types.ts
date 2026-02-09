@@ -1,4 +1,4 @@
-export type ContentStatus = 'draft' | 'queued' | 'published' | 'failed';
+export type ContentStatus = 'draft' | 'queued' | 'published' | 'failed' | 'archived';
 export type EngagementType = 'mention' | 'reply' | 'quote' | 'like';
 export type IntentType = 'question' | 'praise' | 'complaint' | 'neutral' | 'lead';
 
