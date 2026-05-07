@@ -61,7 +61,8 @@ export default function Hero() {
                   <>
                     I build intelligent systems that solve real-world problems.
                     From <span className="font-bold underline decoration-wavy decoration-purple-500">Smart Grids</span> to
-                    <span className="font-bold underline decoration-wavy decoration-pink-500"> Computer Vision</span>,
+                    <span className="font-bold underline decoration-wavy decoration-pink-500"> Computer Vision</span> and
+                    <span className="font-bold underline decoration-wavy decoration-blue-500"> Voice AI</span>,
                     I bridge the gap between hardware and AI.
                   </>
                 )

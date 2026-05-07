@@ -14,6 +14,9 @@ import {
   Globe,
   Server,
   Terminal,
+  Mic,
+  Volume2,
+  MessageSquare,
 } from "lucide-react";
 
 const skills = [
@@ -29,13 +32,18 @@ const skills = [
   { name: "MATLAB", icon: Code, color: "bg-red-300" },
   { name: "Simulink", icon: Layers, color: "bg-red-400" },
 
-  // Web & Systems
+  { name: "LLM", icon: MessageSquare, color: "bg-purple-300" },
+  { name: "STT", icon: Mic, color: "bg-blue-300" },
+  { name: "TTS", icon: Volume2, color: "bg-green-300" },
+  { name: "Python", icon: Terminal, color: "bg-blue-300" },
+  { name: "Node.js", icon: Globe, color: "bg-green-300" },
+  { name: "TypeScript", icon: Code, color: "bg-blue-400" },
+  { name: "LiveKit", icon: Zap, color: "bg-purple-400" },
   { name: "Next.js", icon: Globe, color: "bg-gray-300" },
   { name: "React", icon: Code, color: "bg-cyan-300" },
   { name: "Docker", icon: Server, color: "bg-blue-400" },
   { name: "MongoDB", icon: Database, color: "bg-green-400" },
   { name: "PostgreSQL", icon: Database, color: "bg-blue-500" },
-  { name: "Linux", icon: Terminal, color: "bg-yellow-500" },
 ];
 
 export default function TechArsenal() {

@@ -20,16 +20,17 @@ const experiences: Experience[] = [
   {
     title: "AI Engineer Intern",
     company: "Crawlii",
-    period: "Feb 2026 – Present",
-    description: "Crawlii is an AI-driven SaaS and Voice Bot platform enabling businesses to deploy intelligent conversational agents over voice calls, SMS, and messaging channels.",
+    period: "Feb 2026 – May 2026",
+    description: "An \"India-first\" Voice AI platform designed for high-performance outbound campaigns, customer support, and real-time voice interaction with <500ms latency.",
     bullets: [
-      <>Architected AI voice bot systems integrating STT, LLM reasoning, and TTS pipelines, achieving <strong>&lt;800ms end-to-end latency</strong> on a real-time <strong>LiveKit</strong> platform.</>,
-      <>Engineered a <strong>provider-agnostic telephony service</strong> (Elixir) for Twilio, Exotel, and Plivo, seamlessly dispatching outbound campaigns of <strong>50,000+ contacts</strong> with plug-and-play fallback.</>,
-      <>Built a real-time <strong>WebSocket audio bridge</strong> with μ-law/PCM16 transcoding and VAD-based barge-in, reliably managing <strong>1,000+ concurrent voice sessions</strong> across server pools.</>,
-      <>Implemented <strong>LLM inference workers</strong> with multi-provider fallback (Gemini, Groq, Claude), guaranteeing <strong>99.9% AI response uptime</strong> via custom circuit breakers and streaming TTS.</>,
-      <>Designed a robust <strong>RabbitMQ-based queue architecture</strong> handling <strong>10,000+ messages/minute</strong> for async AI processing, integrated with <strong>Redis</strong> concurrency controls for large-scale operations.</>
+      <>Architected a <strong>high-concurrency Voice AI platform</strong> utilizing a distributed Node.js/Python architecture to handle real-time outbound campaigns and customer support.</>,
+      <>Reduced voice response latency by <strong>40%</strong> by implementing a custom <strong>Speculative Race LLM</strong> class that parallelizes multiple LLM providers and selects the lowest-latency response stream.</>,
+      <>Developed a <strong>TRAI-compliant DND scrubbing engine</strong> using an atomic-swap memory set, enabling the processing of million-entry blocklists with zero downtime.</>,
+      <>Engineered a <strong>resilient AI pipeline</strong> with custom <strong>Circuit Breakers</strong> and multi-provider fallbacks (OpenAI, Groq, Gemini) to maintain session stability during high-traffic surges or provider outages.</>,
+      <>Implemented a <strong>distributed background job system</strong> via BullMQ and Redis, automating RAG document ingestion and post-call transcript summarization for 1,000+ concurrent sessions.</>,
+      <>Built a <strong>comprehensive observability stack</strong> using Prometheus and Grafana to monitor P95 latencies, system health, and per-call API costs in real-time.</>
     ],
-    techStack: ["Python", "Elixir", "FastAPI", "LiveKit", "Twilio", "Exotel", "Plivo", "MCube", "RabbitMQ", "Redis", "PostgreSQL", "Docker", "Kubernetes", "WebRTC", "SIP"],
+    techStack: ["React", "Node.js", "TypeScript", "Python", "LiveKit", "OpenAI", "Deepgram", "ElevenLabs", "Groq", "Redis", "Supabase", "Prisma", "BullMQ", "Docker", "Kubernetes", "Prometheus", "Grafana", "Nginx", "Twilio", "Telnyx"],
     color: "bg-green-400",
     venomColor: "bg-zinc-900 border-venom-slime shadow-[4px_4px_0px_0px_#84cc16]"
   },
