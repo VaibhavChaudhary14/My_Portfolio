@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Patrick_Hand, Comic_Neue, Outfit } from "next/font/google";
+import { Patrick_Hand, Comic_Neue, Outfit, Newsreader, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./global.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import ClientThemeWrapper from "@/components/client-theme-wrapper";
@@ -23,6 +23,25 @@ const comicNeue = Comic_Neue({
 const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-outfit",
+});
+
+const newsreader = Newsreader({
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-newsreader",
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  weight: ["400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  weight: ["400", "500", "600"],
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
 });
 
 export const metadata: Metadata = {
@@ -50,7 +69,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning className={`${patrickHand.variable} ${comicNeue.variable} ${outfit.variable} font-sans bg-[#fbfbfb] text-zinc-900 dark:bg-venom-black dark:text-venom-white`}>
+      <body suppressHydrationWarning className={`${patrickHand.variable} ${comicNeue.variable} ${outfit.variable} ${newsreader.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} font-sans bg-[#fbfbfb] text-zinc-900 dark:bg-venom-black dark:text-venom-white`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ClientThemeWrapper>
             <ChatWidget />

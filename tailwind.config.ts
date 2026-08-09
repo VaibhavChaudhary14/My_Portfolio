@@ -12,8 +12,39 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-comic)", "cursive"],
         hand: ["var(--font-patrick)", "cursive"],
+        "editorial-serif": ["var(--font-newsreader)", "Georgia", "serif"],
+        "editorial-sans": ["var(--font-plus-jakarta)", "Inter", "system-ui", "sans-serif"],
+        "editorial-mono": ["var(--font-jetbrains)", "JetBrains Mono", "monospace"],
       },
       colors: {
+        // Editorial Palette
+        editorial: {
+          bg: "#faf9f5",
+          "bg-card": "#ffffff",
+          ink: "#141413",
+          "ink-muted": "#5e5e5a",
+          "ink-faint": "#8e8e88",
+          border: "#e8e6df",
+          "border-subtle": "#f0eee6",
+          accent: "#9a3412", // Terracotta / warm rust
+          "accent-soft": "#ffedd5",
+          gold: "#b45309",
+          sage: "#2b5329",
+          navy: "#1e293b",
+          dark: {
+            bg: "#0d0f11",
+            "bg-card": "#13171b",
+            "bg-elevated": "#1a1f24",
+            ink: "#f3f3f0",
+            "ink-muted": "#a1a19b",
+            "ink-faint": "#6b6b66",
+            border: "#232930",
+            "border-subtle": "#1c2126",
+            accent: "#ea580c",
+            "accent-soft": "rgba(234, 88, 12, 0.15)",
+          }
+        },
+
         // Sketchbook Palette
         background: "#fbfbfb", // Paper White
         foreground: "#18181b", // Ink Black

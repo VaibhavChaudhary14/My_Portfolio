@@ -24,7 +24,7 @@ export default function Navigation() {
     { href: "#experience", label: theme === "venom" ? "Origin" : "Journey" },
     { href: "#projects", label: theme === "venom" ? "Missions" : "Work" },
     { href: "/lab", label: theme === "venom" ? "Symbiote Lab" : "Lab" },
-    { href: "/blog", label: theme === "venom" ? "Stash" : "Blog" },
+    { href: "/blog", label: "Writing" },
     { href: "#contact", label: theme === "venom" ? "Summon" : "Contact" },
   ];
 

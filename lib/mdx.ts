@@ -4,14 +4,26 @@ import matter from 'gray-matter'
 
 const postsDirectory = path.join(process.cwd(), 'content/blog')
 
+export type PostMeta = {
+    title: string
+    date: string
+    excerpt: string
+    category?: string
+    topics?: string[]
+    researchLevel?: string
+    sourcesCount?: number
+    researchTime?: string
+    readTime?: string
+    typeOfPiece?: string
+    featured?: boolean
+    subtitle?: string
+    author?: string
+    [key: string]: any
+}
+
 export type Post = {
     slug: string
-    meta: {
-        title: string
-        date: string
-        excerpt: string
-        [key: string]: any
-    }
+    meta: PostMeta
     content: string
 }
 
