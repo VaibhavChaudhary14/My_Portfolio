@@ -18,25 +18,14 @@ interface Project {
 
 const projects: Project[] = [
   {
-    id: "1",
-    title: "SaafSaksham",
-    description: "AI-Powered Civic Cleanliness Verification Platform. Uses Vision Transformers to detect garbage and verify cleanliness.",
-    tech: ["PyTorch", "Next.js", "OpenCV", "Vision Transformers", "Google Maps API", "Tailwind CSS"],
-    github: "https://github.com/VaibhavChaudhary14/SaafSaksham",
-    color: "bg-green-200",
-    venomColor: "border-green-500 shadow-[4px_4px_0px_0px_#22c55e]"
-  },
-  {
     id: "2",
-    title: "Smart Grid Security",
+    title: "Vertex Fusion",
     description: "Cyberattack detection in power grids using Spatio-Temporal Graph Neural Networks (ST-GNNs).",
     tech: ["ST-GNN", "MATLAB", "Reinforcement Learning", "Python", "Graph Theory", "Cybersecurity"],
-    github: "https://github.com/VaibhavChaudhary14",
+    github: "https://github.com/VaibhavChaudhary14/vertex-fusion",
     color: "bg-blue-200",
     venomColor: "border-blue-500 shadow-[4px_4px_0px_0px_#3b82f6]"
   },
-
-
   {
     id: "4",
     title: "Science Labs",
@@ -54,26 +43,6 @@ const projects: Project[] = [
     github: "https://github.com/VaibhavChaudhary14/My_Portfolio",
     color: "bg-purple-200",
     venomColor: "border-purple-500 shadow-[4px_4px_0px_0px_#a855f7]"
-  },
-  {
-    id: "6",
-    title: "The Old Money Valentine",
-    description: "An interactive, cinematic storytelling experience with a '1950s Old Money' aesthetic. Features hand-gesture page turning and personalized narrative.",
-    tech: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Audio API"],
-    github: "https://github.com/VaibhavChaudhary14/For_You",
-    live: "https://special14.vercel.app/",
-    color: "bg-rose-200",
-    venomColor: "border-rose-500 shadow-[4px_4px_0px_0px_#f43f5e]"
-  },
-  {
-    id: "7",
-    title: "Deep Mind",
-    description: "The high-performance monetering system for Everyone. A local-first, AI-powered career accelerator.",
-    tech: ["Next.js 14", "Tailwind CSS", "Supabase", "Dexie.js", "Gemini Pro"],
-    github: "https://github.com/VaibhavChaudhary14/Deep_Mind",
-    live: "https://yourdm.vercel.app/",
-    color: "bg-indigo-200",
-    venomColor: "border-indigo-500 shadow-[4px_4px_0px_0px_#6366f1]"
   }
 ];
 
