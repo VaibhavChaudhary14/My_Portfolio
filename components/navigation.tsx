@@ -64,22 +64,22 @@ export default function Navigation() {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 border-b-2 px-4 py-2.5 transition-colors duration-500 ${theme === 'venom' ? 'bg-venom-black border-venom-slime text-white' : 'bg-white border-black text-zinc-900'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 border-b-2 px-4 md:px-6 py-3 transition-colors duration-500 ${theme === 'venom' ? 'bg-venom-black border-venom-slime text-white' : 'bg-white border-black text-zinc-900'}`}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <div className="flex items-center">
-          <a href="#home" className={`text-2xl font-black tracking-tighter transition-colors ${theme === 'venom' ? 'hover:text-venom-slime' : 'hover:text-purple-600'}`}>
+          <a href="#home" className={`text-3xl md:text-4xl font-black tracking-tighter transition-colors ${theme === 'venom' ? 'hover:text-venom-slime' : 'hover:text-purple-600'}`}>
             {theme === 'venom' ? "WE.ARE.VENOM" : "VAIBHAV.DEV"}
           </a>
           <VisitorCounter />
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-2.5 lg:gap-3.5">
           {links.map(link => (
             <a
               key={link.href}
               href={link.href}
-              className={`px-3 py-1 text-xs font-black rounded-lg border-2 transition-all hover:-translate-y-0.5 ${
+              className={`px-3.5 py-1.5 text-sm md:text-base font-black rounded-lg border-2 transition-all hover:-translate-y-0.5 ${
                 theme === 'venom' ? link.venomHighlight : link.highlight
               }`}
             >

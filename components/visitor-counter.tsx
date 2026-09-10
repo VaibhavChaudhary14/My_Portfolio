@@ -35,11 +35,11 @@ export default function VisitorCounter() {
     if (count === null) return null;
 
     return (
-        <div className={`flex items-center gap-2 text-sm font-bold ml-4 px-3 py-1 rounded-full transition-colors border ${theme === 'venom'
-            ? 'bg-venom-black border-venom-slime text-venom-slime'
-            : 'bg-white border-purple-200 text-purple-600'
+        <div className={`flex items-center gap-2 text-base md:text-lg font-black ml-4 px-4 py-1.5 rounded-full transition-colors border-2 ${theme === 'venom'
+            ? 'bg-venom-black border-venom-slime text-venom-slime shadow-[2px_2px_0px_0px_#84cc16]'
+            : 'bg-white border-black text-purple-700 shadow-neobrutalism-sm'
             }`}>
-            <Users size={14} />
+            <Users size={18} />
             <span className="hidden sm:inline">Visitors</span>
             <span>{count.toLocaleString()}</span>
         </div>
