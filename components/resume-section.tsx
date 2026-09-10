@@ -28,6 +28,7 @@ export default function ResumeSection() {
 
     const currentYear = new Date().getFullYear();
     const [selectedYear, setSelectedYear] = useState(currentYear);
+    const [imgError, setImgError] = useState(false);
 
     // Calculate total contributions
     const handleTransformData = (data: any) => {
@@ -170,21 +171,27 @@ export default function ResumeSection() {
                         </div>
 
                         {/* GitHub Activity Graph (Image) */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            className="w-full mt-4"
-                        >
-                            <img
-                                src="https://camo.githubusercontent.com/0ba93cbd7cc0e26cbe9d2fa6c881c61a9dc4d0943604e42a264f727a1506d9c3/68747470733a2f2f6769746875622d726561646d652d61637469766974792d67726170682e76657263656c2e6170702f67726170683f757365726e616d653d56616962686176436861756468617279313426637573746f6d5f7469746c653d566169626861762773253230436f6e747269627574696f6e25323047726170682662675f636f6c6f723d30443131313726636f6c6f723d374633464246266c696e653d37463346424626706f696e743d37463346424626617265615f636f6c6f723d464646464646267469746c655f636f6c6f723d46464646464626617265613d74727565"
-                                alt="GitHub Activity Graph"
-                                className={`w-full rounded-xl border-4 ${theme === 'venom'
-                                    ? 'border-venom-slime shadow-[4px_4px_0px_0px_#84cc16]'
-                                    : 'border-black shadow-neobrutalism'
-                                    }`}
-                            />
-                        </motion.div>
+                        {!imgError && (
+                            <motion.div
+                                initial={{ opacity: 0, x: 20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                className="w-full mt-4"
+                            >
+                                <img
+                                    src={theme === 'venom'
+                                        ? "https://github-readme-activity-graph.vercel.app/graph?username=VaibhavChaudhary14&theme=react-dark&custom_title=GitHub%20Activity%20Graph&bg_color=18181b&color=84cc16&line=84cc16&point=84cc16&area_color=84cc16&title_color=84cc16&area=true"
+                                        : "https://github-readme-activity-graph.vercel.app/graph?username=VaibhavChaudhary14&theme=minimal&custom_title=GitHub%20Activity%20Graph&bg_color=ffffff&color=000000&line=000000&point=000000&area_color=e5e7eb&title_color=000000&area=true"
+                                    }
+                                    alt="GitHub Activity Graph"
+                                    onError={() => setImgError(true)}
+                                    className={`w-full rounded-xl border-4 ${theme === 'venom'
+                                        ? 'border-venom-slime shadow-[4px_4px_0px_0px_#84cc16]'
+                                        : 'border-black shadow-neobrutalism'
+                                        }`}
+                                />
+                            </motion.div>
+                        )}
 
                         {/* GitHub Activity Graph Component */}
                         <motion.div

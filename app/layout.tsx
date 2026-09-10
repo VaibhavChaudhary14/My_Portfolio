@@ -62,6 +62,34 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Vaibhav Chaudhary",
+  jobTitle: "AI / Machine Learning Engineer",
+  url: "https://vaibhav-14ry.vercel.app",
+  image: "https://vaibhav-14ry.vercel.app/profile-light.png",
+  description:
+    "AI / Machine Learning Engineer specializing in Computer Vision, cyber-physical AI systems, and applied machine learning. Building end-to-end ML pipelines to solve real-world infrastructure and security problems.",
+  sameAs: [
+    "https://github.com/VaibhavChaudhary14",
+    "https://www.linkedin.com/in/vaibhavchaudhary14",
+    "https://x.com/Vaibhav_14ry",
+    "https://medium.com/@vaibhav_14ry",
+  ],
+  knowsAbout: [
+    "Computer Vision",
+    "PyTorch",
+    "TensorFlow",
+    "Spatio-Temporal Graph Neural Networks",
+    "Smart Grid Cybersecurity",
+    "Voice AI",
+    "Next.js",
+    "TypeScript",
+    "Docker",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -69,6 +97,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body suppressHydrationWarning className={`${patrickHand.variable} ${comicNeue.variable} ${outfit.variable} ${newsreader.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} font-sans bg-[#fbfbfb] text-zinc-900 dark:bg-venom-black dark:text-venom-white`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ClientThemeWrapper>

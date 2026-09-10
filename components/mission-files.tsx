@@ -5,6 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Github, ExternalLink, X, FolderOpen } from "lucide-react";
 import { useThemeStore } from "@/store/useThemeStore";
 
+interface ProjectMetric {
+  label: string;
+  value: string;
+}
+
 interface Project {
   id: string;
   title: string;
@@ -12,8 +17,12 @@ interface Project {
   tech: string[];
   github?: string;
   live?: string;
+  metrics?: ProjectMetric[];
   color: string;
   venomColor?: string;
+  architecture?: string;
+  problem?: string;
+  tradeoffs?: string;
 }
 
 const projects: Project[] = [
@@ -23,26 +32,16 @@ const projects: Project[] = [
     description: "Cyberattack detection in power grids using Spatio-Temporal Graph Neural Networks (ST-GNNs).",
     tech: ["ST-GNN", "MATLAB", "Reinforcement Learning", "Python", "Graph Theory", "Cybersecurity"],
     github: "https://github.com/VaibhavChaudhary14/vertex-fusion",
+    metrics: [
+      { label: "Architecture", value: "ST-GNN" },
+      { label: "Domain", value: "Smart Grid" },
+      { label: "Signals", value: "PMU Data" },
+    ],
     color: "bg-blue-200",
-    venomColor: "border-blue-500 shadow-[4px_4px_0px_0px_#3b82f6]"
-  },
-  {
-    id: "4",
-    title: "Science Labs",
-    description: "A specialized playground for interactive physics simulations and AI-driven scientific experiments.",
-    tech: ["Three.js", "React Three Fiber", "Gemini AI", "Next.js", "Vector Math"],
-    live: "/lab",
-    color: "bg-amber-100",
-    venomColor: "border-amber-500 shadow-[4px_4px_0px_0px_#f59e0b]"
-  },
-  {
-    id: "5",
-    title: "Portfolio",
-    description: "My personal website built with Next.js and Tailwind CSS. You are looking at it right now!",
-    tech: ["Next.js", "Tailwind", "Framer Motion", "TypeScript", "Gemini API", "Resend"],
-    github: "https://github.com/VaibhavChaudhary14/My_Portfolio",
-    color: "bg-purple-200",
-    venomColor: "border-purple-500 shadow-[4px_4px_0px_0px_#a855f7]"
+    venomColor: "border-blue-500 shadow-[4px_4px_0px_0px_#3b82f6]",
+    architecture: "PMU Data Stream → Spatial Graph Convolutions → Temporal Gated Recurrent Units → Reinforcement Learning Mitigation Policy",
+    problem: "Coordinated False Data Injection Attacks (FDIAs) on phasor measurement units (PMUs) bypass conventional state estimation techniques.",
+    tradeoffs: "ST-GNNs capture topological spatial dependencies across power grid nodes while maintaining lower latency than heavy transformers."
   }
 ];
 
@@ -68,13 +67,13 @@ export default function MissionFiles() {
         >
           <h2 className="text-4xl md:text-5xl font-black mb-4 inline-block relative">
             <span className={`relative z-10 ${theme === 'venom' ? 'text-venom-slime' : 'text-black'}`}>
-              {theme === 'venom' ? "OUR Conquests 📂" : "Mission Files 📂"}
+              {theme === 'venom' ? "OUR Conquests" : "Mission Files"}
             </span>
             <div className={`absolute inset-0 translate-y-2 -translate-x-2 -z-0 skew-x-12 ${theme === 'venom' ? 'bg-gray-800' : 'bg-paper-pink'}`}></div>
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
@@ -86,12 +85,62 @@ export default function MissionFiles() {
                   : `${project.color} border-black shadow-neobrutalism hover:bg-white text-black`}`}
               whileHover={{ y: -4, shadow: theme === 'venom' ? "0px 0px 20px rgba(132, 204, 22, 0.4)" : "6px 6px 0px 0px #18181b" }}
             >
-              <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                <FolderOpen size={32} />
+              {/* Quick action buttons — always visible */}
+              <div className="absolute top-4 right-4 flex gap-2 z-10">
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className={`p-2 rounded border-2 transition-all hover:-translate-y-0.5 ${
+                      theme === 'venom'
+                        ? 'border-venom-slime/40 text-venom-slime hover:bg-venom-slime hover:text-black'
+                        : 'border-black bg-white text-black hover:bg-black hover:text-white'
+                    }`}
+                    title="View source code"
+                  >
+                    <Github size={16} />
+                  </a>
+                )}
+                {project.live && (
+                  <a
+                    href={project.live}
+                    target={project.live.startsWith("http") ? "_blank" : "_self"}
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className={`p-2 rounded border-2 transition-all hover:-translate-y-0.5 ${
+                      theme === 'venom'
+                        ? 'border-venom-slime/40 text-venom-slime hover:bg-venom-slime hover:text-black'
+                        : 'border-black bg-white text-black hover:bg-black hover:text-white'
+                    }`}
+                    title="Live demo"
+                  >
+                    <ExternalLink size={16} />
+                  </a>
+                )}
               </div>
 
-              <h3 className="text-2xl font-bold mb-2 font-sans truncate pr-8">{project.title}</h3>
+              <h3 className="text-2xl font-bold mb-2 font-sans truncate pr-24">{project.title}</h3>
               <p className={`font-hand line-clamp-3 mb-4 ${theme === 'venom' ? 'text-gray-400' : 'text-zinc-800'}`}>{project.description}</p>
+
+              {/* Metrics row */}
+              {project.metrics && (
+                <div className={`flex flex-wrap gap-3 mb-4 py-3 border-t border-b ${
+                  theme === 'venom' ? 'border-venom-slime/20' : 'border-black/10'
+                }`}>
+                  {project.metrics.map(m => (
+                    <div key={m.label} className="flex flex-col">
+                      <span className={`text-[11px] uppercase tracking-wider font-bold ${
+                        theme === 'venom' ? 'text-gray-500' : 'text-zinc-500'
+                      }`}>{m.label}</span>
+                      <span className={`text-sm font-black ${
+                        theme === 'venom' ? 'text-venom-slime' : 'text-black'
+                      }`}>{m.value}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <div className="flex flex-wrap gap-2 mt-auto">
                 {project.tech.map(t => (
@@ -112,7 +161,7 @@ export default function MissionFiles() {
               onClick={() => setSelectedId(null)}
             >
               <motion.div
-                className={`p-8 rounded-xl border-4 max-w-2xl w-full relative ${theme === 'venom' ? 'bg-zinc-900 border-venom-slime shadow-[0_0_30px_rgba(132,204,22,0.3)]' : 'bg-white border-black shadow-neobrutalism'}`}
+                className={`p-6 md:p-8 rounded-xl border-4 max-w-xl md:max-w-2xl w-full max-h-[85vh] overflow-y-auto relative ${theme === 'venom' ? 'bg-zinc-900 border-venom-slime shadow-[0_0_30px_rgba(132,204,22,0.3)] text-gray-200' : 'bg-white border-black shadow-neobrutalism text-black'}`}
                 onClick={(e) => e.stopPropagation()}
               >
                 <button
@@ -128,6 +177,52 @@ export default function MissionFiles() {
                     <>
                       <h2 className={`text-4xl font-black mb-4 ${theme === 'venom' ? 'text-venom-white' : 'text-black'}`}>{project.title}</h2>
                       <p className={`text-xl font-hand mb-6 ${theme === 'venom' ? 'text-gray-400' : 'text-zinc-700'}`}>{project.description}</p>
+
+                      {/* Metrics in modal */}
+                      {project.metrics && (
+                        <div className={`flex flex-wrap gap-6 mb-6 p-4 rounded-lg border-2 ${
+                          theme === 'venom' ? 'border-venom-slime/20 bg-black/50' : 'border-gray-200 bg-gray-50'
+                        }`}>
+                          {project.metrics.map(m => (
+                            <div key={m.label} className="flex flex-col">
+                              <span className={`text-xs uppercase tracking-wider font-bold ${
+                                theme === 'venom' ? 'text-gray-500' : 'text-zinc-400'
+                              }`}>{m.label}</span>
+                              <span className={`text-lg font-black ${
+                                theme === 'venom' ? 'text-venom-slime' : 'text-black'
+                              }`}>{m.value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Deep-Dive Case Study Sections */}
+                      {project.architecture && (
+                        <div className="mb-6">
+                          <h4 className={`font-bold mb-1.5 text-sm uppercase tracking-wider ${theme === 'venom' ? 'text-venom-slime' : 'text-purple-600'}`}>System Architecture Pipeline</h4>
+                          <p className={`text-xs font-mono p-3 rounded border-2 ${theme === 'venom' ? 'bg-black border-venom-slime/30 text-green-400' : 'bg-gray-100 border-black text-zinc-800'}`}>
+                            {project.architecture}
+                          </p>
+                        </div>
+                      )}
+
+                      {project.problem && (
+                        <div className="mb-6">
+                          <h4 className={`font-bold mb-1.5 text-sm uppercase tracking-wider ${theme === 'venom' ? 'text-venom-slime' : 'text-purple-600'}`}>Problem & Engineering Challenge</h4>
+                          <p className={`text-sm ${theme === 'venom' ? 'text-gray-300' : 'text-zinc-700'}`}>
+                            {project.problem}
+                          </p>
+                        </div>
+                      )}
+
+                      {project.tradeoffs && (
+                        <div className="mb-6">
+                          <h4 className={`font-bold mb-1.5 text-sm uppercase tracking-wider ${theme === 'venom' ? 'text-venom-slime' : 'text-purple-600'}`}>Key Trade-Offs & Rationale</h4>
+                          <p className={`text-sm ${theme === 'venom' ? 'text-gray-300' : 'text-zinc-700'}`}>
+                            {project.tradeoffs}
+                          </p>
+                        </div>
+                      )}
 
                       <div className="mb-8">
                         <h4 className={`font-bold mb-2 text-lg ${theme === 'venom' ? 'text-venom-slime' : 'text-black'}`}>Tech Stack:</h4>

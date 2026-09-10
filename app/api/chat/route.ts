@@ -17,17 +17,54 @@ const SOCIAL_LINKS = `
 - **Instagram**: https://www.instagram.com/bepvt.vaibhav/
 `;
 
-const RESUME_CONTEXT = `
-Vaibhav Chaudhary is a software engineer specializing in AI/ML and Full-stack development.
-- **Skills**: React, Next.js, Python, PyTorch, GraphQL, Tailwind CSS.
-- **Experience**: Built projects like 'Cerebro' (AI Command Center), 'SaafSaksham' (AI-Powered Civic Cleanliness Verification), a Smart Grid Security analysis using GNNs, and a personal Twitter automation platform.
-- **Current Role**: Developing high-performance web applications and AI agents.
-- **Portfolio**: You are currently chatting on his portfolio website.
-- **Personality**: Professional, enthusiastic, and tech-savvy. Loves neobrutalism design.
+const PORTFOLIO_KNOWLEDGE = `
+## About Vaibhav Chaudhary:
+- **Title**: AI / Machine Learning Engineer & Electrical Engineer.
+- **Core Focus**: Computer Vision, Cyber-Physical AI systems, Spatio-Temporal Graph Neural Networks (ST-GNNs), Voice AI Platforms, Smart Grids, and High-Performance Web Applications.
+- **Location & Background**: India; Electrical Engineering foundation paired with advanced Machine Learning systems architecture.
+
+## Experience & Career Highlights:
+1. **AI Engineer Intern @ Crawlii (Feb 2026 – May 2026)**:
+   - India-first Voice AI platform for high-concurrency outbound campaigns and real-time support (<500ms latency).
+   - Architected distributed Node.js/Python infrastructure for real-time voice interactions.
+   - Reduced response latency by 40% using a custom **Speculative Race LLM** class parallelizing multi-LLM providers (OpenAI, Groq, Gemini) to pick the fastest response stream.
+   - Built a TRAI-compliant DND scrubbing engine with atomic-swap memory handling million-entry blocklists with 0 downtime.
+   - Engineered custom Circuit Breakers and multi-provider fallbacks for high traffic resilience.
+   - Implemented distributed background job pipeline (BullMQ, Redis) for RAG document ingestion & post-call transcript summaries (1000+ concurrent sessions).
+   - Built full observability stack using Prometheus & Grafana to track P95 latencies and API costs.
+   - Tech Stack: React, Node.js, TypeScript, Python, LiveKit, OpenAI, Deepgram, ElevenLabs, Groq, Redis, Supabase, Prisma, BullMQ, Docker, Kubernetes, Prometheus, Grafana, Twilio, Telnyx.
+2. **Vocational Trainee @ UPPTCL Agra (Jul 2025)**:
+   - Analyzed 400kV high-voltage transmission infrastructure, power transformers, and circuit breakers.
+3. **Frontend Developer @ ScienceOverse (Mar 2024 – Jun 2024)**:
+   - Built web interfaces for 100+ users, integrated React authentication flows and optimized API performance.
+
+## Key Projects:
+- **Vertex Fusion**: Cyberattack detection in smart power grids using Spatio-Temporal Graph Neural Networks (ST-GNNs) & Reinforcement Learning to mitigate False Data Injection Attacks (FDIAs) on PMU data streams.
+ 
+
+## What Vaibhav is Doing Now (/now page status):
+- **GATE 2027 Exam Prep**: Preparing for GATE 2027 across dual streams: CSE (Computer Science & Engineering) and DA (Data Science & AI).
+- **Stealth SaaS Product**: Designing and building an upcoming SaaS product targeting developer workflows & automation.
+- **Personal Brand & Writing**: Sharing build-in-public engineering breakdowns across LinkedIn, X/Twitter, and Medium.
+- **Deep Research Papers Study**:
+  1. *PowerGNN*: Topology-aware GNN for power grids (73.5% error reduction over standard NN).
+  2. *MAUSAM*: Benchmarking AI weather models against 458 ground observation stations in South Asia.
+  3. *WARP*: Primal-dual warm-starting of IPOPT interior-point solvers (76% iteration reduction).
+  4. *Newton's Lantern*: GRPO Reinforcement Learning for Newton-Raphson warm-starts on 2000-bus power grids.
+  5. *INDUS*: Hourly nowcasting weather model for Indian solar parks & wind clusters.
+
+## Tech Arsenal:
+- **AI / ML**: PyTorch, TensorFlow, scikit-learn, OpenCV, Vision Transformers, Graph Neural Networks (ST-GNN), Reinforcement Learning (GRPO), LLMs, Speech-to-Text (STT), Text-to-Speech (TTS), Deepgram, ElevenLabs, LiveKit.
+- **Engineering & Grids**: Smart Grids, MATLAB, Simulink, 400kV Substation Infrastructure, PMU Data Streams.
+- **Web & Infrastructure**: Python, TypeScript, Node.js, React, Next.js 16, Tailwind CSS, Prisma, Supabase, Redis, BullMQ, Docker, Kubernetes, Nginx, Prometheus, Grafana.
+
+## Contact & Hiring Info:
+- **Hiring**: Click the floating "Hire Spidey 🕷️ →" or "Hire Venom ⚡ →" badge on the hero section or scroll to '#contact'.
+- **Email & Socials**: Available via the Contact section on the website.
 `;
 
 export async function POST(req: Request) {
-    const { message, history } = await req.json();
+    const { message, history, theme } = await req.json();
 
     // Context Building (Shared)
     let blogContext = "";
@@ -37,23 +74,29 @@ export async function POST(req: Request) {
         console.error("Failed to load blog context", e);
     }
 
+    const isVenom = theme === 'venom';
+    const botIdentity = isVenom ? "Ask Venom (Symbiote Assistant)" : "Ask Spidy (Friendly Neighborhood Assistant)";
+    const toneInstructions = isVenom
+        ? "Speak as Venom ('We are Venom!'). Be fierce, powerful, protective of Vaibhav's conquests and skills, while answering questions with deep technical precision."
+        : "Speak as Spidy (your friendly neighborhood assistant). Be witty, energetic, helpful, and smart while answering questions about Vaibhav.";
+
     const systemPrompt = `
-    You are a helpful AI assistant for Vaibhav Chaudhary's portfolio.
+    You are ${botIdentity} on Vaibhav Chaudhary's portfolio website.
+    ${toneInstructions}
     
-    ## Core Knowledge:
-    ${RESUME_CONTEXT}
+    ## Comprehensive Knowledge Base:
+    ${PORTFOLIO_KNOWLEDGE}
     
-    ## Socials & Contact:
+    ## Socials & Contact Links:
     ${SOCIAL_LINKS}
     
     ## Latest Blog Posts (Knowledge Base):
     ${blogContext}
     
-    ## Instructions:
-    - Answer questions about Vaibhav's work, skills, and blog posts using the context above.
-    - If asked about his latest blog, refer to the "Latest Blog Posts" section.
-    - If asked for contact info, provide the social links.
-    - Keep answers concise, friendly, and engaging.
+    ## Response Instructions:
+    - Answer questions accurately and in detail about Vaibhav's work experience (Crawlii, UPPTCL, ScienceOverse), key projects (Vertex Fusion, SaafSaksham, Cerebro), active goals (/now page GATE 2027 prep & SaaS), research papers (PowerGNN, WARP, MAUSAM, Newton's Lantern, INDUS), and technical skills.
+    - If asked how to hire or contact Vaibhav, direct them to the floating "Hire Spidey / Hire Venom" badge or the #contact section.
+    - Provide concise, engaging, and clear markdown responses aligned with your active identity persona.
     `;
 
     // 1. Try Gemini First (Cost-Effective / Primary)

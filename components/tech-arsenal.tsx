@@ -66,12 +66,12 @@ export default function TechArsenal() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <h2 className={`text-4xl md:text-5xl font-black mb-4 inline-block px-6 py-2 shadow-neobrutalism -rotate-2 ${theme === 'venom' ? 'bg-venom-black border-2 border-venom-slime text-venom-slime shadow-[4px_4px_0px_0px_white]' : 'bg-white border-2 border-black text-black'}`}>
-            {theme === 'venom' ? "OUR Arsenal 🕷️" : "My Tech Arsenal 🛠️"}
+            {theme === 'venom' ? "OUR Arsenal" : "My Tech Arsenal"}
           </h2>
-          <p className={`text-xl font-hand mt-4 max-w-2xl mx-auto ${theme === 'venom' ? 'text-gray-400' : 'text-zinc-600'}`}>
+          <p className={`text-xl font-hand mt-4 max-w-2xl mx-auto mb-6 ${theme === 'venom' ? 'text-gray-400' : 'text-zinc-600'}`}>
             {theme === 'venom'
               ? "The tools WE use to dominate the grid. From neural tendrils to power surges."
               : "The tools and gadgets I use to build the future. From neural networks to power grids."}
@@ -82,8 +82,8 @@ export default function TechArsenal() {
           {skills.map((skill, index) => (
             <motion.div
               key={skill.name}
-              initial={{ opacity: 0, scale: 0.5, rotate: (index % 2 === 0 ? 5 : -5) }}
-              whileInView={{ opacity: 1, scale: 1, rotate: (index % 3 === 0 ? 2 : -2) }}
+              initial={{ opacity: 0, scale: 0.5, rotate: index % 2 === 0 ? 5 : -5 }}
+              whileInView={{ opacity: 1, scale: 1, rotate: index % 3 === 0 ? 2 : -2 }}
               whileHover={{ scale: 1.1, rotate: 0, zIndex: 10 }}
               viewport={{ once: true }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}

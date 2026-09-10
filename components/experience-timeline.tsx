@@ -83,7 +83,7 @@ export default function ExperienceTimeline() {
           whileInView={{ opacity: 1, y: 0 }}
         >
           <span className={`border-b-8 px-4 ${theme === 'venom' ? 'border-venom-slime text-venom-slime' : 'border-paper-yellow text-black'}`}>
-            {theme === 'venom' ? "Our Origins 🧬" : "My Journey 🚀"}
+            {theme === 'venom' ? "Our Origins" : "My Journey"}
           </span>
         </motion.h2>
 

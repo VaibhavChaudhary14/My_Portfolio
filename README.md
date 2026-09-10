@@ -37,19 +37,13 @@ A stunning portfolio website that toggles between two identities:
    - Detailed project sheets with tech specs
    - ML model information display
 
-5. **ML Lab (Stark Industries Research)**
-   - Research projects showcase
-   - Vector Database and Agentic AI specialization
-   - Impact metrics and status badges
-
-6. **Contact (Daily Bugle)**
+5. **Contact (Daily Bugle)**
    - Email copy functionality with "Webbed!" message
    - Sentiment analyzer for messages
    - Contact form integration
 
 ### 🎯 Special Features
 
-- **Command Palette (Ctrl+K)**: Quick navigation to any section
 - **Spider-Sense Alert**: Inactivity detection (30s) with animated alert
 - **Sentiment Analyzer**: Real-time message sentiment detection
 - **Responsive Design**: Mobile-first, works on all devices
@@ -120,10 +114,8 @@ Edit CSS variables in `app/global.css`:
 │   ├── tech-arsenal.tsx     # Skills section
 │   ├── experience-timeline.tsx
 │   ├── mission-files.tsx    # Projects showcase
-│   ├── ml-lab.tsx           # ML research section
 │   ├── contact.tsx          # Contact form
 │   ├── footer.tsx           # Footer
-│   ├── command-palette.tsx  # Ctrl+K navigation
 │   ├── spider-sense-alert.tsx
 │   ├── sentiment-analyzer.tsx
 │   ├── hero-toggle.tsx     # Theme toggle button

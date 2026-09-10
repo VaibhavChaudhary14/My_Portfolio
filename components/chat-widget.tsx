@@ -36,10 +36,10 @@ export function ChatWidget() {
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const suggestions = [
-        "What is your latest project?",
+        "Tell me about Vertex Fusion (ST-GNNs)",
+        "What is Vaibhav's Tech Arsenal?",
         "Tell me about SaafSaksham",
-        "What are your skills?",
-        "How can I contact you?"
+        "How can I hire or contact Vaibhav?"
     ];
 
     const scrollToBottom = () => {
@@ -70,7 +70,7 @@ export function ChatWidget() {
             const response = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: userMessage, history: messages }),
+                body: JSON.stringify({ message: userMessage, history: messages, theme: theme }),
             });
 
             let data;

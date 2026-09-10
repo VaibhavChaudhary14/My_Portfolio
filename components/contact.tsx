@@ -69,7 +69,7 @@ export default function Contact() {
             initial={{ rotate: -5, scale: 0.9 }}
             whileInView={{ rotate: 1, scale: 1 }}
           >
-            {theme === 'venom' ? "Summon Us 🕸️" : "Send Me a Note! 📝"}
+            {theme === 'venom' ? "Summon Us" : "Send Me a Note!"}
           </motion.h2>
 
           <p className={`text-xl font-hand mb-6 max-w-lg mx-auto ${theme === 'venom' ? 'text-gray-400' : 'text-zinc-700'}`}>

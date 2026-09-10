@@ -294,17 +294,10 @@ export default function WriterPortfolioView({ posts }: WriterPortfolioViewProps)
             <a href="#contact" className={`hover:underline decoration-2 ${theme === "venom" ? "hover:text-venom-slime decoration-venom-slime" : "hover:text-purple-600 decoration-black"}`}>
               Contact
             </a>
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <a
-              href="#contact"
-              className={`inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider px-4 py-2 border-2 shadow-neobrutalism hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all ${theme === "venom" ? "bg-venom-slime text-black border-venom-slime shadow-[2px_2px_0px_0px_white]" : "bg-black text-white border-black"}`}
-            >
-              <span>Hire Me</span>
-              <ArrowUpRight className="w-4 h-4" />
+            <a href="#contact" className={`font-bold text-sm underline underline-offset-4 decoration-2 transition-colors ${theme === "venom" ? "text-venom-slime hover:text-white decoration-venom-slime" : "text-purple-600 hover:text-black decoration-purple-600"}`}>
+              Hire Me
             </a>
-          </div>
+          </nav>
         </div>
       </header>
 

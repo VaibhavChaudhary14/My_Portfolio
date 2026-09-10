@@ -50,8 +50,30 @@ export default function Hero() {
               whileHover={{ rotate: 0, scale: 1.05 }}
             >
               <p className="text-xl md:text-2xl font-hand font-bold">
-                Electrical Engineer & AI ML Enthusiast ⚡🤖
+                Electrical Engineer & AI ML Enthusiast
               </p>
+            </motion.div>
+
+            {/* Availability Badge */}
+            <motion.div
+              className={`inline-flex items-center gap-2 px-4 py-2 border-2 rounded-lg font-bold text-sm mb-8 ${
+                theme === 'venom'
+                  ? 'border-venom-slime bg-black text-venom-slime shadow-[2px_2px_0px_0px_#84cc16]'
+                  : 'border-black bg-green-100 text-green-900 shadow-neobrutalism-sm'
+              }`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <span className={`relative flex h-3 w-3`}>
+                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                  theme === 'venom' ? 'bg-venom-slime' : 'bg-green-500'
+                }`} />
+                <span className={`relative inline-flex rounded-full h-3 w-3 ${
+                  theme === 'venom' ? 'bg-venom-slime' : 'bg-green-500'
+                }`} />
+              </span>
+              {theme === 'venom' ? 'Accepting hosts' : 'Open to work'}
             </motion.div>
 
             <p className={`text-xl font-sans max-w-lg mx-auto md:mx-0 leading-relaxed mb-8 ${theme === 'venom' ? 'text-gray-300' : 'text-zinc-600'}`}>
@@ -69,22 +91,8 @@ export default function Hero() {
               }
             </p>
 
-            <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-              <motion.a
-                href="#projects"
-                className={`px-8 py-3 font-bold border-2 shadow-neobrutalism hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all rounded-lg ${theme === 'venom' ? 'bg-venom-slime text-black border-venom-slime shadow-[4px_4px_0px_0px_white]' : 'bg-black text-white border-black'}`}
-                whileTap={{ scale: 0.95 }}
-              >
-                {theme === 'venom' ? "View Mission" : "View My Work"}
-              </motion.a>
-              <motion.a
-                href="#contact"
-                className={`px-8 py-3 font-bold border-2 shadow-neobrutalism hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all rounded-lg ${theme === 'venom' ? 'bg-transparent text-venom-slime border-venom-slime shadow-[4px_4px_0px_0px_#84cc16]' : 'bg-white text-black border-black'}`}
-                whileTap={{ scale: 0.95 }}
-              >
-                {theme === 'venom' ? "Join Us" : "Say Hello"}
-              </motion.a>
-            </div>
+
+
           </motion.div>
 
           {/* Avatar Image */}
@@ -95,6 +103,20 @@ export default function Hero() {
             transition={{ type: "spring", duration: 0.8 }}
           >
             <div className="relative w-72 h-72 md:w-96 md:h-96 mx-auto">
+              {/* Floating Hire Spidey / Hire Venom Badge */}
+              <motion.a
+                href="#contact"
+                className={`absolute -top-6 -left-4 md:-left-8 z-20 px-4 py-2 border-2 rounded-xl font-black text-sm uppercase tracking-wider shadow-neobrutalism transition-all hover:scale-105 ${
+                  theme === 'venom'
+                    ? 'bg-venom-slime text-black border-venom-slime shadow-[3px_3px_0px_0px_white]'
+                    : 'bg-yellow-300 text-black border-black shadow-[3px_3px_0px_0px_#000]'
+                }`}
+                animate={{ y: [0, -12, 0] }}
+                transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
+              >
+                {theme === 'venom' ? 'Hire Venom ⚡ →' : 'Hire Spidey 🕷️ →'}
+              </motion.a>
+
               {/* Liquid Blob Background */}
               <div className={`absolute inset-0 animate-blob translate-x-4 translate-y-4 ${theme === 'venom' ? 'bg-venom-slime' : 'bg-purple-400'}`} />
 
