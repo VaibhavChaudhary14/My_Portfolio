@@ -18,6 +18,7 @@ import { HFEmbed } from "@/components/mdx/HFEmbed";
 import { Divider } from "@/components/mdx/Divider";
 import { RageLoop } from "@/components/mdx/RageLoop";
 import { SectionBanner } from "@/components/mdx/SectionBanner";
+import { SubstackCTA } from "@/components/mdx/SubstackCTA";
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -87,6 +88,7 @@ export default async function BlogPost({ params }: Props) {
       HFEmbed,
       RageLoop,
       SectionBanner,
+      SubstackCTA,
     },
   });
 
@@ -243,6 +245,9 @@ export default async function BlogPost({ params }: Props) {
               {content}
             </div>
 
+            {/* Automatic Substack Call to Action Banner on every blog */}
+            <SubstackCTA />
+
             {/* Bottom Engagement Bar */}
             <div className="mt-16 pt-10 border-t-4 border-black dark:border-venom-slime space-y-10">
               
@@ -275,13 +280,13 @@ export default async function BlogPost({ params }: Props) {
                 </p>
 
                 <div className="pt-2 flex flex-wrap items-center gap-4">
-                  <a
-                    href="mailto:14vaibhav2002@gmail.com?subject=Writing%20Collaboration%20Inquiry"
+                  <Link
+                    href="/blog#contact"
                     className="inline-flex items-center gap-2 px-5 py-3 border-2 border-black dark:border-venom-slime bg-black text-white dark:bg-venom-slime dark:text-black font-mono font-black text-xs uppercase tracking-wider shadow-neobrutalism-sm hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
                   >
                     <Mail className="w-4 h-4" />
                     <span>Commission An Article</span>
-                  </a>
+                  </Link>
                   <Link
                     href="/blog"
                     className="inline-flex items-center gap-1.5 text-xs font-mono font-bold underline hover:text-purple-700 dark:hover:text-venom-slime"
