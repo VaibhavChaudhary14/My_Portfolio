@@ -145,6 +145,7 @@ export default function NowPage() {
             <div className="flex flex-wrap gap-2 mt-auto text-xs font-bold font-mono">
               <span className={`px-2.5 py-1 rounded border ${theme === 'venom' ? 'bg-black border-venom-slime text-venom-slime' : 'bg-white border-black'}`}>LinkedIn</span>
               <span className={`px-2.5 py-1 rounded border ${theme === 'venom' ? 'bg-black border-venom-slime text-venom-slime' : 'bg-white border-black'}`}>X / Twitter</span>
+              <span className={`px-2.5 py-1 rounded border ${theme === 'venom' ? 'bg-black border-venom-slime text-venom-slime' : 'bg-white border-black'}`}>Substack</span>
               <span className={`px-2.5 py-1 rounded border ${theme === 'venom' ? 'bg-black border-venom-slime text-venom-slime' : 'bg-white border-black'}`}>Instagram</span>
             </div>
           </motion.div>

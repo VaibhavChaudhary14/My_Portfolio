@@ -76,6 +76,8 @@ const jsonLd = {
     "https://www.linkedin.com/in/vaibhavchaudhary14",
     "https://x.com/Vaibhav_14ry",
     "https://medium.com/@vaibhav_14ry",
+    "https://substack.com/@vaibhav14ry",
+    "https://www.instagram.com/bepvt.vaibhav/",
   ],
   knowsAbout: [
     "Computer Vision",

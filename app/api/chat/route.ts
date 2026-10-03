@@ -14,6 +14,7 @@ const SOCIAL_LINKS = `
 - **LinkedIn**: https://www.linkedin.com/in/vaibhavchaudhary14
 - **Twitter**: https://x.com/Vaibhav_14ry
 - **Medium**: https://medium.com/@vaibhav_14ry
+- **Substack**: https://substack.com/@vaibhav14ry
 - **Instagram**: https://www.instagram.com/bepvt.vaibhav/
 `;
 

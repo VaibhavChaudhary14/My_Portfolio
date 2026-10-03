@@ -12,6 +12,18 @@ type ContactFormData = {
   message: string;
 };
 
+const SubstackIcon = ({ size = 20, className = "" }: { size?: number; className?: string }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+  >
+    <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z" />
+  </svg>
+);
+
 export default function Contact() {
   const [copied, setCopied] = useState(false);
   const email = "14vaibhav2002@gmail.com";
@@ -181,6 +193,10 @@ export default function Contact() {
                 <a href="https://medium.com/@vaibhav_14ry" target="_blank" className={`flex flex-col items-center gap-2 p-3 border-2 transition-colors ${theme === 'venom' ? 'bg-black border-venom-slime hover:bg-venom-slime/10' : 'bg-yellow-100 border-black hover:bg-yellow-200'}`}>
                   <BookOpen size={20} className={theme === 'venom' ? 'text-venom-slime' : 'text-black'} />
                   <span className="font-bold text-xs">Medium</span>
+                </a>
+                <a href="https://substack.com/@vaibhav14ry" target="_blank" className={`flex flex-col items-center gap-2 p-3 border-2 transition-colors ${theme === 'venom' ? 'bg-black border-venom-slime hover:bg-venom-slime/10' : 'bg-orange-100 border-black hover:bg-orange-200'}`}>
+                  <SubstackIcon size={20} className={theme === 'venom' ? 'text-venom-slime' : 'text-orange-600'} />
+                  <span className="font-bold text-xs">Substack</span>
                 </a>
                 <a href="https://www.instagram.com/bepvt.vaibhav/" target="_blank" className={`flex flex-col items-center gap-2 p-3 border-2 transition-colors ${theme === 'venom' ? 'bg-black border-venom-slime hover:bg-venom-slime/10' : 'bg-pink-100 border-black hover:bg-pink-200'}`}>
                   <Instagram size={20} className={theme === 'venom' ? 'text-venom-slime' : 'text-pink-600'} />
