@@ -21,6 +21,7 @@ export function LikeButton() {
     return (
         <button
             onClick={handleLike}
+            aria-label="Like portfolio"
             className="group relative flex items-center gap-2"
         >
             <div className={`p-3 rounded-full border-2 border-black transition-all ${liked ? 'bg-red-500 border-red-500' : 'bg-white hover:bg-neutral-100'}`}>

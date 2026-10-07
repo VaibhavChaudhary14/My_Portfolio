@@ -184,6 +184,8 @@ export default function ResumeSection() {
                                         : "https://github-readme-activity-graph.vercel.app/graph?username=VaibhavChaudhary14&theme=minimal&custom_title=GitHub%20Activity%20Graph&bg_color=ffffff&color=000000&line=000000&point=000000&area_color=e5e7eb&title_color=000000&area=true"
                                     }
                                     alt="GitHub Activity Graph"
+                                    width={800}
+                                    height={400}
                                     onError={() => setImgError(true)}
                                     className={`w-full rounded-xl border-4 ${theme === 'venom'
                                         ? 'border-venom-slime shadow-[4px_4px_0px_0px_#84cc16]'

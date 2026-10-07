@@ -92,7 +92,7 @@ export default function Navigation() {
         <div className="flex items-center gap-3 md:hidden">
           <ThemeToggle />
           {/* Mobile Menu Button */}
-          <button onClick={() => setIsOpen(!isOpen)}>
+          <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle navigation menu">
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>

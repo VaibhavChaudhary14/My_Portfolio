@@ -17,6 +17,7 @@ export default function ThemeToggle() {
     return (
         <button
             onClick={toggleTheme}
+            aria-label="Toggle theme"
             className={`relative w-20 h-10 rounded-full border-2 transition-colors duration-500 overflow-hidden ${theme === "venom"
                     ? "bg-venom-black border-venom-slime shadow-[0_0_10px_#84cc16]"
                     : "bg-white border-black shadow-neobrutalism-sm"

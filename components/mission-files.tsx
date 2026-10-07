@@ -130,7 +130,7 @@ export default function MissionFiles() {
                   {project.metrics.map(m => (
                     <div key={m.label} className="flex flex-col">
                       <span className={`text-[11px] uppercase tracking-wider font-bold ${
-                        theme === 'venom' ? 'text-gray-500' : 'text-zinc-500'
+                        theme === 'venom' ? 'text-gray-400' : 'text-zinc-700'
                       }`}>{m.label}</span>
                       <span className={`text-sm font-black ${
                         theme === 'venom' ? 'text-venom-slime' : 'text-black'
@@ -164,6 +164,7 @@ export default function MissionFiles() {
               >
                 <button
                   onClick={() => setSelectedId(null)}
+                  aria-label="Close project modal"
                   className={`absolute top-4 right-4 p-2 rounded transition-colors border-2 ${theme === 'venom' ? 'bg-red-900/50 border-red-500 text-red-500 hover:bg-red-900' : 'bg-red-400 border-black hover:bg-red-500'}`}
                 >
                   <X size={20} />

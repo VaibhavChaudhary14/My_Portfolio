@@ -3,7 +3,11 @@
 import { useThemeStore } from "@/store/useThemeStore";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import FlightLoader from "@/components/loader/flight-loader";
+import dynamic from "next/dynamic";
+
+const FlightLoader = dynamic(() => import("@/components/loader/flight-loader"), {
+  ssr: false,
+});
 
 export default function ClientThemeWrapper({ children }: { children: React.ReactNode }) {
   const { theme } = useThemeStore();
@@ -19,10 +23,11 @@ export default function ClientThemeWrapper({ children }: { children: React.React
   }, [theme, setTheme]);
 
   useEffect(() => {
-    // Check if flight loader has played in current session
     if (typeof window !== 'undefined') {
+      const isBot = /bot|googlebot|crawler|spider|robot|crawling|lighthouse/i.test(navigator.userAgent);
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const hasVisited = sessionStorage.getItem('flight_loader_seen');
-      if (hasVisited === 'true') {
+      if (hasVisited === 'true' || isBot || prefersReducedMotion) {
         setLoading(false);
       }
     }

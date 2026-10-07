@@ -139,6 +139,7 @@ export default function ExperienceTimeline() {
             >
               <button
                 onClick={() => setSelectedExp(null)}
+                aria-label="Close details modal"
                 className={`absolute top-4 right-4 p-2 rounded transition-colors border-2 z-10 ${theme === 'venom' ? 'bg-red-900/50 border-red-500 text-red-500 hover:bg-red-900' : 'bg-red-400 border-black text-black hover:bg-red-500'}`}
               >
                 <X size={20} />
