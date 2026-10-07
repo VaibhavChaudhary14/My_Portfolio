@@ -9,9 +9,17 @@ interface FlightLoaderProps {
   onComplete?: () => void;
 }
 
+function getPhaseForProgress(p: number): string {
+  if (p < 18) return "INITIALIZING SYSTEMS";
+  if (p < 38) return "SYSTEM CHECK / PASSENGERS ONBOARD";
+  if (p < 58) return "ENGINE SPOOLING";
+  if (p < 78) return "TAXIING & ACCELERATING";
+  if (p < 94) return "ROTATION & TAKEOFF";
+  return "CLIMB & FLIGHT DECK";
+}
+
 export default function FlightLoader({ onComplete }: FlightLoaderProps) {
   const [progress, setProgress] = useState(0);
-  const [phase, setPhase] = useState("INITIALIZING SYSTEMS");
   const [isExiting, setIsExiting] = useState(false);
   const [webGLSupported, setWebGLSupported] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -19,6 +27,12 @@ export default function FlightLoader({ onComplete }: FlightLoaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneControllerRef = useRef<FlightSceneController | null>(null);
   const isSiteReadyRef = useRef<boolean>(false);
+  const progressRef = useRef<number>(0);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   // Check prefers-reduced-motion and WebGL support
   useEffect(() => {
@@ -82,62 +96,46 @@ export default function FlightLoader({ onComplete }: FlightLoaderProps) {
     };
   }, [webGLSupported, reducedMotion]);
 
-  // Main Progress & Phase Loop
+  // Main High-Performance Progress Loop
   useEffect(() => {
     let animationFrameId: number;
+    let lastTime = performance.now();
 
-    const animateProgress = () => {
-      setProgress((current) => {
-        const isReady = isSiteReadyRef.current;
+    const animateProgress = (now: number) => {
+      const delta = (now - lastTime) / 1000;
+      lastTime = now;
 
-        let next = current;
-        if (!isReady && current < 92) {
-          next = current + 0.35;
-        } else if (isReady) {
-          next = current + 1.4;
-        }
+      // Rate: 16% per second while loading, 45% per second once ready
+      const rate = isSiteReadyRef.current ? 45 : 16;
+      progressRef.current = Math.min(100, progressRef.current + rate * delta);
+      const val = progressRef.current;
 
-        if (next > 100) next = 100;
+      // Update 3D WebGL scene smoothly on every frame
+      if (sceneControllerRef.current) {
+        sceneControllerRef.current.updateProgress(val);
+      }
 
-        if (sceneControllerRef.current) {
-          sceneControllerRef.current.updateProgress(next);
-        }
-
-        return next;
+      // Update React UI state only when display integer percentage changes
+      setProgress((prev) => {
+        const currentInt = Math.floor(val);
+        const prevInt = Math.floor(prev);
+        return currentInt !== prevInt ? val : prev;
       });
 
-      animationFrameId = requestAnimationFrame(animateProgress);
+      if (val < 100) {
+        animationFrameId = requestAnimationFrame(animateProgress);
+      } else {
+        setIsExiting(true);
+        setTimeout(() => {
+          onCompleteRef.current?.();
+        }, 500);
+      }
     };
 
     animationFrameId = requestAnimationFrame(animateProgress);
 
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
-
-  // Sync Phase Labels based on Progress Thresholds
-  useEffect(() => {
-    if (progress < 18) {
-      setPhase("INITIALIZING SYSTEMS");
-    } else if (progress < 38) {
-      setPhase("SYSTEM CHECK / PASSENGERS ONBOARD");
-    } else if (progress < 58) {
-      setPhase("ENGINE SPOOLING");
-    } else if (progress < 78) {
-      setPhase("TAXIING & ACCELERATING");
-    } else if (progress < 94) {
-      setPhase("ROTATION & TAKEOFF");
-    } else {
-      setPhase("CLIMB & FLIGHT DECK");
-    }
-
-    if (progress >= 100 && !isExiting) {
-      setIsExiting(true);
-      const timer = setTimeout(() => {
-        onComplete?.();
-      }, 700);
-      return () => clearTimeout(timer);
-    }
-  }, [progress, isExiting, onComplete]);
 
   // Keyboard shortcut (ESC key to skip)
   useEffect(() => {
@@ -151,11 +149,14 @@ export default function FlightLoader({ onComplete }: FlightLoaderProps) {
   }, []);
 
   const handleSkip = () => {
+    progressRef.current = 100;
     setIsExiting(true);
     setTimeout(() => {
-      onComplete?.();
-    }, 400);
+      onCompleteRef.current?.();
+    }, 300);
   };
+
+  const currentPhase = getPhaseForProgress(progress);
 
   // Fallback for WebGL missing or Reduced Motion
   if (!webGLSupported || reducedMotion) {
@@ -191,7 +192,7 @@ export default function FlightLoader({ onComplete }: FlightLoaderProps) {
       aria-live="polite"
     >
       <div ref={containerRef} className="flight-canvas" />
-      <LoaderHUD progress={progress} phase={phase} onSkip={handleSkip} />
+      <LoaderHUD progress={progress} phase={currentPhase} onSkip={handleSkip} />
     </div>
   );
 }
