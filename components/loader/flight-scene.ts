@@ -29,7 +29,8 @@ export function createFlightScene(): FlightSceneController {
   let animationFrameId: number = 0;
   let targetProgress: number = 0;
   let currentProgress: number = 0;
-  let clock = new THREE.Clock();
+  let startTime = 0;
+  let lastTime = 0;
 
   function initScene() {
     scene = new THREE.Scene();
@@ -70,8 +71,10 @@ export function createFlightScene(): FlightSceneController {
   function renderLoop() {
     if (!renderer || !scene || !camera || !aircraft || !environment) return;
 
-    const delta = clock.getDelta();
-    const elapsedTime = clock.getElapsedTime();
+    const now = performance.now() / 1000;
+    const delta = Math.min(now - lastTime, 0.1);
+    lastTime = now;
+    const elapsedTime = now - startTime;
 
     // Smooth progress interpolation
     currentProgress += (targetProgress - currentProgress) * 0.08;
@@ -178,11 +181,12 @@ export function createFlightScene(): FlightSceneController {
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.shadowMap.type = THREE.PCFShadowMap;
 
       container.appendChild(renderer.domElement);
       window.addEventListener('resize', handleResize);
-      clock.start();
+      startTime = performance.now() / 1000;
+      lastTime = startTime;
       renderLoop();
     },
     updateProgress: (progress: number) => {

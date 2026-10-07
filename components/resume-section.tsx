@@ -266,10 +266,10 @@ export default function ResumeSection() {
                                 />
                                 <Tooltip
                                     id="github-tooltip"
+                                    border={theme === 'venom' ? '1px solid #84cc16' : undefined}
                                     style={{
                                         backgroundColor: theme === 'venom' ? '#000' : '#333',
                                         color: theme === 'venom' ? '#84cc16' : '#fff',
-                                        border: theme === 'venom' ? '1px solid #84cc16' : 'none',
                                         borderRadius: '8px',
                                         fontWeight: 'bold'
                                     }}
