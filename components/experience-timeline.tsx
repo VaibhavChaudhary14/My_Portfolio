@@ -72,8 +72,6 @@ export default function ExperienceTimeline() {
     };
   }, [selectedExp]);
 
-  if (!mounted) return null;
-
   return (
     <section id="experience" className={`py-24 px-4 sm:px-6 lg:px-8 ${theme === 'venom' ? 'bg-venom-black' : ''}`}>
       <div className="max-w-4xl mx-auto">

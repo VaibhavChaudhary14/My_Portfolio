@@ -96,7 +96,7 @@ export default async function BlogPost({ params }: Props) {
   const minutes = meta.readTime || `${Math.ceil(words / 200)} min read`;
 
   // JSON-LD structured data for the article with E-E-A-T citation support
-  const jsonLd = {
+  const jsonLdArticle = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: meta.title,
@@ -109,12 +109,12 @@ export default async function BlogPost({ params }: Props) {
     },
     author: {
       "@type": "Person",
-      name: meta.author || "Vaibhav",
-      url: "https://vaibhav-14ry.vercel.app/blog",
+      name: meta.author || "Vaibhav Chaudhary",
+      url: "https://vaibhav-14ry.vercel.app",
     },
     publisher: {
       "@type": "Person",
-      name: "Vaibhav",
+      name: "Vaibhav Chaudhary",
     },
     citation: [
       "https://doi.org/10.1509/jmr.10.0353",
@@ -125,12 +125,41 @@ export default async function BlogPost({ params }: Props) {
     ]
   };
 
+  const jsonLdBreadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://vaibhav-14ry.vercel.app",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Writing",
+        item: "https://vaibhav-14ry.vercel.app/blog",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: meta.title,
+        item: `https://vaibhav-14ry.vercel.app/blog/${slug}`,
+      },
+    ],
+  };
+
   return (
     <>
       <ScrollProgress />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
       />
 
       <div className="min-h-screen bg-[#fbfbfb] dark:bg-venom-black text-zinc-900 dark:text-venom-white font-sans selection:bg-paper-yellow dark:selection:bg-venom-slime dark:selection:text-black transition-colors duration-300 relative">

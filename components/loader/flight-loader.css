@@ -1,0 +1,264 @@
+/* Brutalist 3D Motion Flight Loader Styles */
+
+.flight-loader-container {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background-color: #050505;
+  color: #ffffff;
+  overflow: hidden;
+  font-family: var(--font-jetbrains), "JetBrains Mono", monospace, sans-serif;
+  text-transform: uppercase;
+  user-select: none;
+  touch-action: none;
+  transition: opacity 0.8s cubic-bezier(0.85, 0, 0.15, 1), transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+.flight-loader-container.exiting {
+  opacity: 0;
+  transform: scale(1.04);
+  pointer-events: none;
+}
+
+.flight-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+}
+
+/* ── HUD OVERLAY ── */
+.flight-hud {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* HUD Top Header Bar */
+.hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 0.75rem;
+  background: linear-gradient(180deg, rgba(5,5,5,0.8) 0%, rgba(5,5,5,0) 100%);
+}
+
+.hud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.6rem;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 900;
+  border: 1px solid #000000;
+  box-shadow: 2px 2px 0px #84cc16;
+}
+
+.hud-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #84cc16;
+  animation: pulse-dot 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.7); }
+}
+
+/* HUD Central Progress Bar Box */
+.hud-center {
+  position: absolute;
+  top: 3.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(580px, 90vw);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.hud-title-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.2rem;
+}
+
+.hud-main-label {
+  font-size: clamp(1.25rem, 3.5vw, 2.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.hud-percent {
+  font-size: clamp(1.5rem, 4vw, 2.75rem);
+  font-weight: 900;
+  color: #84cc16;
+  font-family: var(--font-jetbrains), monospace;
+}
+
+.hud-progress-track {
+  width: 100%;
+  height: 24px;
+  border: 3px solid #ffffff;
+  background-color: #000000;
+  padding: 3px;
+  box-shadow: 4px 4px 0px rgba(132, 204, 22, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.hud-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffffff 0%, #84cc16 100%);
+  transition: width 0.1s linear;
+}
+
+.hud-status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 0.25rem;
+}
+
+.hud-status-phase {
+  color: #84cc16;
+  font-weight: 900;
+}
+
+/* HUD Passengers Manifesto Overlay */
+.hud-manifesto {
+  position: absolute;
+  left: 2rem;
+  top: 45%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  border-left: 3px solid #84cc16;
+  padding-left: 0.85rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  font-weight: 800;
+  background: rgba(5, 5, 5, 0.6);
+  backdrop-filter: blur(4px);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0 4px 4px 0;
+}
+
+.hud-manifesto-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.hud-manifesto-item.active {
+  color: #84cc16;
+  transform: translateX(4px);
+}
+
+.hud-manifesto-item.active::before {
+  content: "▶";
+  font-size: 0.6rem;
+}
+
+/* HUD Bottom Telemetry Grid */
+.hud-footer {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  align-items: flex-end;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  line-height: 1.6;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  padding-top: 0.75rem;
+  background: linear-gradient(0deg, rgba(5,5,5,0.85) 0%, rgba(5,5,5,0) 100%);
+}
+
+.hud-footer-center {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+}
+
+.hud-footer-right {
+  text-align: right;
+}
+
+.hud-interactive-skip {
+  pointer-events: auto;
+  cursor: pointer;
+  background-color: #000000;
+  color: #84cc16;
+  border: 2px solid #84cc16;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  box-shadow: 2px 2px 0px #ffffff;
+  transition: all 0.2s ease;
+}
+
+.hud-interactive-skip:hover {
+  background-color: #84cc16;
+  color: #000000;
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+/* WebGL Fallback Container */
+.flight-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #050505;
+  color: #ffffff;
+  z-index: 20;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+  .flight-hud {
+    padding: 1rem;
+  }
+  .hud-manifesto {
+    display: none;
+  }
+  .hud-footer {
+    grid-template-columns: 1fr 1fr;
+  }
+  .hud-footer-center {
+    display: none;
+  }
+}

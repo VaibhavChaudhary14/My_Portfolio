@@ -14,8 +14,6 @@ export default function Hero() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
-
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
       {/* Background Doodles */}
@@ -39,7 +37,7 @@ export default function Hero() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="text-6xl md:text-8xl font-black mb-6 font-sans tracking-tight" style={{ textShadow: "4px 4px 0px #a855f7" }}>
-              HIE, I AM <br />
+              HI, I AM <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500 stroke-black" style={{ WebkitTextStroke: "2px black" }}>
                 VAIBHAV CHAUDHARY
               </span>
@@ -124,11 +122,11 @@ export default function Hero() {
               <div className={`absolute inset-0 animate-blob overflow-hidden border-4 z-10 ${theme === 'venom' ? 'border-venom-slime bg-black' : 'border-black bg-white'}`}>
                 <Image
                   src={theme === 'venom' ? "/profile-venom.png" : "/profile-light.png"}
-                  alt="Vaibhav Chaudhary"
+                  alt="Vaibhav Chaudhary - AI & Machine Learning Engineer Profile Picture"
                   fill
                   priority
-                  className="object-cover scale-110" // Slight scale to cover blob movement
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover scale-110"
+                  sizes="(max-width: 768px) 288px, 384px"
                 />
               </div>
 

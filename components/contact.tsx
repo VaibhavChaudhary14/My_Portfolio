@@ -37,8 +37,6 @@ export default function Contact() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
-
   const handleCopy = () => {
     navigator.clipboard.writeText(email);
     setCopied(true);

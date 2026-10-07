@@ -54,8 +54,6 @@ export default function TechArsenal() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
-
   return (
     <section id="skills" className={`py-24 px-4 sm:px-6 lg:px-8 relative ${theme === 'venom' ? 'bg-venom-black' : 'bg-paper-yellow/20'}`}>
       {/* Decorative border line */}

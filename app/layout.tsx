@@ -50,6 +50,9 @@ export const metadata: Metadata = {
   keywords: ["AI Engineer", "ML Engineer", "Computer Vision", "Cyber-Physical AI", "Smart Grids", "PyTorch", "TensorFlow", "CNNs", "Vision Transformers"],
   authors: [{ name: "Vaibhav Chaudhary" }],
   metadataBase: new URL('https://vaibhav-14ry.vercel.app/'),
+  verification: {
+    google: "google22a684937340eb36",
+  },
   openGraph: {
     title: "Vaibhav Chaudhary | AI / Machine Learning Engineer",
     description: "Specializing in Computer Vision, cyber-physical AI systems, and applied machine learning.",

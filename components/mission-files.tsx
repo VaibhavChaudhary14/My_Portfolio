@@ -54,8 +54,6 @@ export default function MissionFiles() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
-
   return (
     <section id="projects" className={`py-24 px-4 sm:px-6 lg:px-8 ${theme === 'venom' ? 'bg-black' : ''}`}>
       <div className="max-w-7xl mx-auto">
