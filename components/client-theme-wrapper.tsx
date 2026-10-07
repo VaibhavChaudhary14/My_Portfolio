@@ -12,7 +12,7 @@ const FlightLoader = dynamic(() => import("@/components/loader/flight-loader"), 
 export default function ClientThemeWrapper({ children }: { children: React.ReactNode }) {
   const { theme } = useThemeStore();
   const { setTheme } = useTheme();
-  const [loading, setLoading] = useState(true);
+  const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
     if (theme === 'venom') {
@@ -24,11 +24,12 @@ export default function ClientThemeWrapper({ children }: { children: React.React
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const isBot = /bot|googlebot|crawler|spider|robot|crawling|lighthouse/i.test(navigator.userAgent);
+      const isBot = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|headlesschromium|lr/i.test(navigator.userAgent);
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const hasVisited = sessionStorage.getItem('flight_loader_seen');
-      if (hasVisited === 'true' || isBot || prefersReducedMotion) {
-        setLoading(false);
+
+      if (hasVisited !== 'true' && !isBot && !prefersReducedMotion) {
+        setShowLoader(true);
       }
     }
   }, []);
@@ -37,12 +38,12 @@ export default function ClientThemeWrapper({ children }: { children: React.React
     if (typeof window !== 'undefined') {
       sessionStorage.setItem('flight_loader_seen', 'true');
     }
-    setLoading(false);
+    setShowLoader(false);
   };
 
   return (
     <>
-      {loading && <FlightLoader onComplete={handleComplete} />}
+      {showLoader && <FlightLoader onComplete={handleComplete} />}
       {children}
     </>
   );

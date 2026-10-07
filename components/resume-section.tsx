@@ -31,14 +31,14 @@ export default function ResumeSection() {
     const [imgError, setImgError] = useState(false);
 
     // Calculate total contributions
-    const handleTransformData = (data: any) => {
+    const handleTransformData = React.useCallback((data: any) => {
         const total = data.reduce((acc: any, day: any) => acc + day.count, 0);
-        // Defer state update to avoid render error
-        setTimeout(() => {
-            setTotalContributions(total);
-        }, 0);
+        queueMicrotask(() => {
+            setTotalContributions((prev) => (prev !== total ? total : prev));
+        });
         return data;
-    };
+    }, []);
+
 
     return (
         <section id="resume" className={`py-20 relative overflow-hidden transition-colors duration-500 ${theme === 'venom' ? 'bg-zinc-900' : 'bg-paper-pattern'}`}>

@@ -104,6 +104,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://github-readme-activity-graph.vercel.app" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://github-contributions-api.jogruber.de" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

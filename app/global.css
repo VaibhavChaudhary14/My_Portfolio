@@ -164,3 +164,14 @@
 .animate-pulse-soft {
   animation: pulse-soft 2s ease-in-out infinite;
 }
+
+/* Eliminate non-composited SVG fill animations from react-activity-calendar */
+@keyframes react-activity-calendar--loading-animation {
+  0%, 100% {
+    opacity: 1;
+  }
+}
+
+.react-activity-calendar__calendar rect {
+  animation: none !important;
+}

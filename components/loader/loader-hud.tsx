@@ -50,7 +50,7 @@ export const LoaderHUD: React.FC<LoaderHUDProps> = ({ progress, phase, onSkip })
         </div>
 
         <div className="hud-progress-track" role="progressbar" aria-valuenow={displayPercent} aria-valuemin={0} aria-valuemax={100}>
-          <div className="hud-progress-fill" style={{ width: `${displayPercent}%` }} />
+          <div className="hud-progress-fill" style={{ transform: `scaleX(${displayPercent / 100})` }} />
         </div>
 
         <div className="hud-status-bar">
