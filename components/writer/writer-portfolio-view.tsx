@@ -993,7 +993,6 @@ export default function WriterPortfolioView({ posts }: WriterPortfolioViewProps)
                   {email}
                   <button
                     onClick={handleCopy}
-                    aria-label="Copy email address to clipboard"
                     className={`absolute top-1/2 -translate-y-1/2 right-4 p-2 rounded-full hover:scale-110 transition-transform ${
                       theme === "venom" ? "bg-venom-slime text-black" : "bg-black text-white"
                     }`}

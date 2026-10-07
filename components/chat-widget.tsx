@@ -129,7 +129,6 @@ export function ChatWidget() {
                             </div>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                aria-label="Close chat assistant"
                                 className="p-1 hover:bg-black/10 dark:hover:bg-white/10 rounded transition-colors"
                             >
                                 <X size={20} />
@@ -206,7 +205,6 @@ export function ChatWidget() {
                                 />
                                 <button
                                     type="submit"
-                                    aria-label="Send message to AI assistant"
                                     disabled={isLoading || !input.trim()}
                                     className={`absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-md hover:scale-105 active:scale-95 disabled:opacity-50 disabled:hover:scale-100 transition-all ${isVenom ? "bg-venom-slime text-black" : "bg-red-600 text-white"}`}
                                 >
@@ -239,7 +237,6 @@ export function ChatWidget() {
 
             <motion.button
                 onClick={() => setIsOpen(!isOpen)}
-                aria-label="Toggle AI chat assistant"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 className={`fixed bottom-6 right-6 p-4 rounded-full border-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-50 transition-colors overflow-hidden ${isVenom

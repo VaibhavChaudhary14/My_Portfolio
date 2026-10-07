@@ -31,14 +31,14 @@ export default function ResumeSection() {
     const [imgError, setImgError] = useState(false);
 
     // Calculate total contributions
-    const handleTransformData = React.useCallback((data: any) => {
+    const handleTransformData = (data: any) => {
         const total = data.reduce((acc: any, day: any) => acc + day.count, 0);
-        queueMicrotask(() => {
-            setTotalContributions((prev) => (prev !== total ? total : prev));
-        });
+        // Defer state update to avoid render error
+        setTimeout(() => {
+            setTotalContributions(total);
+        }, 0);
         return data;
-    }, []);
-
+    };
 
     return (
         <section id="resume" className={`py-20 relative overflow-hidden transition-colors duration-500 ${theme === 'venom' ? 'bg-zinc-900' : 'bg-paper-pattern'}`}>
@@ -184,8 +184,6 @@ export default function ResumeSection() {
                                         : "https://github-readme-activity-graph.vercel.app/graph?username=VaibhavChaudhary14&theme=minimal&custom_title=GitHub%20Activity%20Graph&bg_color=ffffff&color=000000&line=000000&point=000000&area_color=e5e7eb&title_color=000000&area=true"
                                     }
                                     alt="GitHub Activity Graph"
-                                    width={800}
-                                    height={400}
                                     onError={() => setImgError(true)}
                                     className={`w-full rounded-xl border-4 ${theme === 'venom'
                                         ? 'border-venom-slime shadow-[4px_4px_0px_0px_#84cc16]'

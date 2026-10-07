@@ -62,7 +62,7 @@ export default function ShareButtons({ title, slug }: Props) {
                     <div ref={modalRef} className="bg-white dark:bg-zinc-900 border-2 border-black dark:border-venom-slime shadow-neobrutalism dark:shadow-[4px_4px_0px_0px_#84cc16] p-4 rounded-xl relative">
                         <div className="flex justify-between items-center mb-4 pb-2 border-b-2 border-dashed border-black/10 dark:border-white/10">
                             <span className="font-hand font-bold text-lg dark:text-white">Share on...</span>
-                            <button onClick={() => setIsOpen(false)} aria-label="Close share menu" className="text-neutral-400 dark:text-gray-400 hover:text-black dark:hover:text-venom-slime transition-colors">
+                            <button onClick={() => setIsOpen(false)} className="text-neutral-400 dark:text-gray-400 hover:text-black dark:hover:text-venom-slime transition-colors">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>

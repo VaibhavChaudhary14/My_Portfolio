@@ -79,22 +79,20 @@
 
 @keyframes blob {
   0% {
-    transform: translate(0px, 0px) scale(1) rotate(0deg);
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   }
-  33% {
-    transform: translate(15px, -20px) scale(1.05) rotate(120deg);
+
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
   }
-  66% {
-    transform: translate(-10px, 15px) scale(0.95) rotate(240deg);
-  }
+
   100% {
-    transform: translate(0px, 0px) scale(1) rotate(360deg);
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   }
 }
 
 .animate-blob {
-  animation: blob 12s ease-in-out infinite;
-  will-change: transform;
+  animation: blob 8s ease-in-out infinite, float 6s ease-in-out infinite;
 }
 
 @keyframes float {
@@ -164,14 +162,3 @@
 .animate-pulse-soft {
   animation: pulse-soft 2s ease-in-out infinite;
 }
-
-/* Eliminate non-composited SVG fill animations from react-activity-calendar */
-@keyframes react-activity-calendar--loading-animation {
-  0%, 100% {
-    opacity: 1;
-  }
-}
-
-.react-activity-calendar__calendar rect {
-  animation: none !important;
-}
